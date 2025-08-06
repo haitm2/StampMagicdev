@@ -1,0 +1,50 @@
+{
+  "project_info": {
+    "project_number": "137316529092",
+    "project_id": "stamp-fd06e",
+    "storage_bucket": "stamp-fd06e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137316529092:android:359526bbff20861992ea91",
+        "android_client_info": {
+          "package_name": "com.beta.stamp.identifier.identify.value"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOb4UArSgCL9qI_b8qN75CmfkxT4W7yrY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      },
+      "admob_app_id": "ca-app-pub-8168306793879841~9313084201"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137316529092:android:e2c75d3d8f5cb29f92ea91",
+        "android_client_info": {
+          "package_name": "com.magicdev.stampsnap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOb4UArSgCL9qI_b8qN75CmfkxT4W7yrY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      },
+      "admob_app_id": "ca-app-pub-9597010572153445~9185639509"
+    }
+  ],
+  "configuration_version": "1"
+}
