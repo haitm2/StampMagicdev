@@ -104,7 +104,7 @@ export default function Detail({ route }) {
       let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'https://stampsnap.magicdev.fun/api/v2/stamps/' + route.params.stampId,
+        url: 'https://stampsnap.stampidentifierai.com/api/v2/stamps/' + route.params.stampId,
         headers: {}
       };
 
@@ -123,7 +123,7 @@ export default function Detail({ route }) {
       let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'https://stampsnap.magicdev.fun/api/v2/stamps/' + stampId,
+        url: 'https://stampsnap.stampidentifierai.com/api/v2/stamps/' + stampId,
         headers: {}
       };
 
@@ -152,7 +152,7 @@ export default function Detail({ route }) {
     <View style={styles.container}>
       <StatusBar
         backgroundColor="#303234"
-        barStyle="light-content"
+        barStyle="dark-content"
       />
 
       <DialogInput isDialogVisible={showAddDialog}
@@ -168,7 +168,7 @@ export default function Detail({ route }) {
         <ActivityIndicator size={"small"} />
         <Text style={{ margin: 8 }}>Getting stamp data...</Text>
       </View>}
-      {stamp && stamp.images && <ScrollView>
+      {stamp && stamp.images && <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ marginTop: 50 }} key={stamp._id}>
           <ImageBackground style={{ width: 150, height: 150, margin: 16, alignSelf: 'center' }} source={{ uri: convertToImageUrl(stamp.images[0]) }} imageStyle={{ resizeMode: 'contain' }} />
           <Text style={{ margin: 16, fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>{stamp.name}</Text>
@@ -178,7 +178,7 @@ export default function Detail({ route }) {
               <BannerAd
                 size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
                 unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                  ios: TestIds.BANNER,
+                  ios: 'ca-app-pub-1354543839348242/5544820117',
                   android: 'ca-app-pub-9597010572153445/5144511231',
                 })}
                 onAdFailedToLoad={(error) => {
@@ -259,7 +259,7 @@ export default function Detail({ route }) {
                 <BannerAd
                   size={BannerAdSize.MEDIUM_RECTANGLE}
                   unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                    ios: TestIds.BANNER,
+                    ios: 'ca-app-pub-1354543839348242/5544820117',
                     android: 'ca-app-pub-9597010572153445/5144511231',
                   })}
                   onAdFailedToLoad={(error) => {

@@ -159,7 +159,7 @@ export default function Main({ navigation, route }) {
 
       <ImageBackground source={require('../assets/stampwpp.jpg')} style={styles.topView} imageStyle={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16 }}>
         <View style={{ marginTop: insets.top + 60 }}>
-          {bannerError || isPurchased ?
+          {bannerError || isPurchased || Platform.OS == 'ios' ?
             <View style={{ flexDirection: 'row', marginBottom: 8 }}>
               <ImageBackground source={require('../assets/img_flag.webp')} style={{ width: 100, height: 100 }} imageStyle={{ resizeMode: 'contain' }} />
               <View style={{ width: width - 164, alignItems: 'center', justifyContent: 'center' }}>
@@ -171,7 +171,7 @@ export default function Main({ navigation, route }) {
               <BannerAd
                 size={isSmallAds ? BannerAdSize.ANCHORED_ADAPTIVE_BANNER : BannerAdSize.MEDIUM_RECTANGLE}
                 unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                  ios: TestIds.BANNER,
+                  ios: 'ca-app-pub-1354543839348242/7313197350',
                   android: 'ca-app-pub-9597010572153445/9250595016',
                 })}
                 style={{ alignSelf: 'center' }}
@@ -350,7 +350,7 @@ export default function Main({ navigation, route }) {
         }}
       >
         <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#37D9BE', '#097754']} style={styles.chatbox}>
-          <TypewriterText text={'Stamp Expert'} loop={true} speed={200} style={{ fontWeight: 'bold', color: '#FFF' }} />
+          <TypewriterText text={'Stamp Expert'} loop={true} speed={200} style={{ fontWeight: 'bold', color: '#FFF', marginLeft: 16, marginRight: 16 }} />
         </LinearGradient>
         <ImageBackground source={require('../assets/chatbot.png')} style={{ width: 80, height: 80 }} />
       </TouchableOpacity>
@@ -420,8 +420,9 @@ const styles = StyleSheet.create({
   },
   chatbox: {
     borderWidth: 1, borderRadius: 20, marginTop: 24, height: 40, borderColor: '#FFF',
-    paddingLeft: 16,
-    paddingRight: 16,
+    // paddingLeft: 16,
+    borderRadius: 32,
+    // paddingRight: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },

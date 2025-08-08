@@ -11,7 +11,7 @@ import { AdEventType, BannerAd, BannerAdSize, InterstitialAd, TestIds } from 're
 import LottieView from 'lottie-react-native';
 
 const interstitialAdUnitId = __DEV__ ? TestIds.INTERSTITIAL : Platform.select({
-  ios: TestIds.INTERSTITIAL,
+  ios: 'ca-app-pub-1354543839348242/8418395467',
   android: 'ca-app-pub-9597010572153445/6614507593'
 });
 
@@ -275,7 +275,7 @@ export default function Collection() {
             <BannerAd
               size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
               unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                ios: TestIds.BANNER,
+                ios: 'ca-app-pub-1354543839348242/6857901785',
                 android: 'ca-app-pub-9597010572153445/8173707678',
               })}
               onAdFailedToLoad={(error) => {

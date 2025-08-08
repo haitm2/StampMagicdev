@@ -209,7 +209,7 @@ export default function Camera() {
           <BannerAd
             size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
             unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-              ios: TestIds.BANNER,
+              ios: 'ca-app-pub-1354543839348242/2252442369',
               android: 'ca-app-pub-9597010572153445/7526221862'
             })}
             onAdFailedToLoad={(error) => {

@@ -14,7 +14,7 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const interstitialAdUnitId = __DEV__ ? TestIds.APP_OPEN : Platform.select({
-  ios: TestIds.APP_OPEN,
+  ios: 'ca-app-pub-1354543839348242/6933907491',
   android: 'ca-app-pub-9597010572153445/4029518924'
 });
 
@@ -131,7 +131,7 @@ export default function Splash({ navigation }) {
   }
 
   return (
-    <SafeAreaView>
+    // <SafeAreaView>
       <ImageBackground source={require('../assets/splash_bg.jpg')} style={{ width: width, height: height, backgroundColor: '#000', alignItems: 'center', justifyContent: 'center' }}>
         <StatusBar
           backgroundColor="#1f0d03"
@@ -143,7 +143,7 @@ export default function Splash({ navigation }) {
             <BannerAd
               size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
               unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                ios: TestIds.BANNER,
+                ios: 'ca-app-pub-1354543839348242/6985894294',
                 android: 'ca-app-pub-9597010572153445/9195436884',
               })}
               onAdFailedToLoad={(error) => {
@@ -158,6 +158,6 @@ export default function Splash({ navigation }) {
         <Text style={{ color: '#FFF' }}>Find Your Stamps Value</Text>
         <ActivityIndicator style={{ position: 'absolute', alignSelf: 'center', bottom: insets.bottom + 30 }} size={"large"} color={"#FFF"} />
       </ImageBackground>
-    </SafeAreaView>
+    // </SafeAreaView>
   );
 }

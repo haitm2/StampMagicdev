@@ -11,7 +11,7 @@ import { AdEventType, BannerAd, BannerAdSize, InterstitialAd, TestIds } from 're
 import LottieView from 'lottie-react-native';
 
 const interstitialAdUnitId = __DEV__ ? TestIds.INTERSTITIAL : Platform.select({
-  ios: TestIds.INTERSTITIAL,
+  ios: 'ca-app-pub-1354543839348242/3357640476',
   android: 'ca-app-pub-9597010572153445/3160102455'
 });
 
@@ -101,7 +101,7 @@ export default function Search({ route }) {
     setSearching(true);
     try {
       console.log("searching stamp...");
-      var searchUrl = "https://stampsnap.magicdev.fun/api/v2/searchStamps?q=" + encodeURIComponent(keyword) + "&country=" + encodeURIComponent(country);
+      var searchUrl = "https://stampsnap.stampidentifierai.com/api/v2/searchStamps?q=" + encodeURIComponent(keyword) + "&country=" + encodeURIComponent(country);
       console.log(searchUrl);
       let config = {
         method: 'get',
@@ -126,7 +126,7 @@ export default function Search({ route }) {
     setSearching(true);
     try {
       console.log("getting random stamp...");
-      var searchUrl = "https://stampsnap.magicdev.fun/api/v2/randomStamps";
+      var searchUrl = "https://stampsnap.stampidentifierai.com/api/v2/randomStamps";
       console.log(searchUrl);
       let config = {
         method: 'get',
@@ -217,7 +217,7 @@ export default function Search({ route }) {
             <BannerAd
               size={BannerAdSize.MEDIUM_RECTANGLE}
               unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                ios: TestIds.BANNER,
+                ios: 'ca-app-pub-1354543839348242/8330765558',
                 android: 'ca-app-pub-9597010572153445/1974512282',
               })}
               onAdFailedToLoad={(error) => {

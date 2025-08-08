@@ -42,7 +42,7 @@ export default function PolicyConfirm({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.safe}>
+    // <SafeAreaView style={styles.safe}>
       <ImageBackground source={require('../assets/onboard_bg.jpg')} style={styles.container}>
         <View style={styles.topContent}>
           <Animated.Image
@@ -60,7 +60,7 @@ export default function PolicyConfirm({ navigation }) {
           <BannerAd
             size={BannerAdSize.MEDIUM_RECTANGLE}
             unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-              ios: TestIds.BANNER,
+              ios: 'ca-app-pub-1354543839348242/4687034014',
               android: 'ca-app-pub-9597010572153445/5393451925',
             })}
             onAdFailedToLoad={(error) => {
@@ -94,14 +94,14 @@ export default function PolicyConfirm({ navigation }) {
           </View>
         )}
       </ImageBackground>
-    </SafeAreaView>
+    // </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: '#f4f5f7',
+    backgroundColor: '#000000',
   },
   container: {
     flex: 1,

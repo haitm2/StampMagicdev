@@ -9,7 +9,7 @@ import LottieView from 'lottie-react-native';
 import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
 import InAppReview from 'react-native-in-app-review';
 
-const VALUE_URL = 'https://antique-api.magicdev.fun/api/vcxHUI16aA7cznkv6z/valuingStamp';
+const VALUE_URL = 'https://chatbot.stampidentifierai.com/api/vcxHUI16aA7cznkv6z/valuingStamp';
 
 export default function StampExpert({ navigation }) {
   const [uri, setUri] = useState(null);
@@ -187,7 +187,7 @@ export default function StampExpert({ navigation }) {
             <BannerAd
               size={BannerAdSize.MEDIUM_RECTANGLE}
               unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                ios: TestIds.BANNER,
+                ios: 'ca-app-pub-1354543839348242/4060332143',
                 android: 'ca-app-pub-9597010572153445/5032830591',
               })}
               onAdFailedToLoad={(error) => {

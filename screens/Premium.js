@@ -19,21 +19,21 @@ const POLICY_URL = 'https://stampidentifierai.com/privacy';
 const TERMS_URL = 'https://stampidentifierai.com/terms';
 
 const onetimeIAPPack = Platform.select({
-  ios: 'ONETIME v2.1',
+  ios: 'ONETIME v1.0',
   android: 'ONETIME V1.8',
 });
 
 const weeklyIAPPack = Platform.select({
-  ios: 'WEEKLY v2.1',
+  ios: 'WEEKLY v1.0',
   android: 'WEEKLY V1.8',
 });
 
-var IAP_URL = 'https://analytics.thedudeapp.win/logging';
+var IAP_URL = 'https://analytics.stampidentifierai.com/logging';
 
-var SEARCHADS_LOG_URL = 'https://tcg-api.thedudeapp.win/api/vcxHUI16aA7cznkv6z/logSearchAds';
+var SEARCHADS_LOG_URL = 'https://searchads.stampidentifierai.com/api/vcxHUI16aA7cznkv6z/logSearchAds';
 
 const appId = Platform.select({
-  ios: 'StampId com.ducdm.tcgscanner',
+  ios: 'STAMP_MINHDUC com.ducdm.stampscanner',
   android: 'STAMP_MAGICDEV - packageName: com.magicdev.stampsnap',
 });
 
@@ -126,7 +126,7 @@ const Premium = ({ navigation, route }) => {
           <LottieView source={require('../assets/scan.json')} autoPlay loop style={{ alignSelf: 'center', position: 'absolute', top: 100, width: 160, height: 100 }} />
         </View>
         <View style={{ flex: 1, marginTop: -16, borderTopLeftRadius: 16, borderTopRightRadius: 16, backgroundColor: '#FFF' }}>
-          <Text style={{ marginTop: 24, alignSelf: 'center', fontSize: 24, fontWeight: 'bold' }}>💎 Unlock Premium 💎</Text>
+          <Text style={{ marginTop: 24, alignSelf: 'center', fontSize: 24, fontWeight: 'bold' }}>P R E M I U M</Text>
           <View style={{ width: width / 3 * 2, alignSelf: 'center', margin: 16 }}>
             <Text style={{ fontSize: 10, textAlign: 'justify' }}>✅ No popup ads and banners</Text>
             <Text style={{ fontSize: 10, textAlign: 'justify' }}>✅ Unlimited collection features</Text>

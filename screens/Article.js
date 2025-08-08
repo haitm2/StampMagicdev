@@ -70,7 +70,7 @@ export default function Article({ navigation, route }) {
               <BannerAd
                 size={BannerAdSize.MEDIUM_RECTANGLE}
                 unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                  ios: TestIds.BANNER,
+                  ios: 'ca-app-pub-1354543839348242/5564985503',
                   android: 'ca-app-pub-9597010572153445/9083756240',
                 })}
                 onAdFailedToLoad={(error) => {
@@ -105,7 +105,7 @@ export default function Article({ navigation, route }) {
             <BannerAd
               size={BannerAdSize.MEDIUM_RECTANGLE}
               unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                ios: TestIds.BANNER,
+                ios: 'ca-app-pub-1354543839348242/5564985503',
                 android: 'ca-app-pub-9597010572153445/9083756240',
               })}
               onAdFailedToLoad={(error) => {

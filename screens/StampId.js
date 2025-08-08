@@ -76,6 +76,8 @@ export default function StampId() {
                     bottom: insets.bottom + 16,
                     marginLeft: 8,
                     alignSelf: 'center',
+                    borderWidth: 1,
+                    borderColor: '#CCCCCC'
                 },
                 // tabBarActiveBackgroundColor: '#fff'
             }}
@@ -102,7 +104,7 @@ export default function StampId() {
                     tabBarIcon: ({ size, focused, color }) => {
                         return (
                             <View style={{ width: 60, height: 60, alignItems: 'center', justifyContent: 'center' }}>
-                                <ImageBackground source={require('../assets/capture_home.png')} style={{ width: 60, height: 60 }} />
+                                <ImageBackground source={require('../assets/capture.png')} style={{ width: 60, height: 60 }} />
                             </View>
                         );
                     }

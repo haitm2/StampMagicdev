@@ -14,7 +14,7 @@ import { AdEventType, BannerAd, BannerAdSize, InterstitialAd, TestIds } from 're
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const interstitialAdUnitId = __DEV__ ? TestIds.INTERSTITIAL : Platform.select({
-  ios: TestIds.INTERSTITIAL,
+  ios: 'ca-app-pub-1354543839348242/4192209993',
   android: 'ca-app-pub-9597010572153445/5911013595'
 });
 
@@ -120,7 +120,7 @@ export default function Result({ route }) {
       });
 
       // console.log(JSON.stringify(detectBody));
-      const data = await fetch('https://stampsnap.magicdev.fun/api/v2/detectStamp', {
+      const data = await fetch('https://stampsnap.stampidentifierai.com/api/v2/detectStamp', {
         method: 'POST',
         body: detectBody,
       });
@@ -220,7 +220,7 @@ export default function Result({ route }) {
       const newX1 = Math.round(x1 * scale + offsetX);
       const newY1 = Math.round(y1 * scale + offsetY);
 
-      console.log("x0 =", newX0, ", x1 =", newX1, ", y0 =", newY0, ", y1 =",newY1);
+      console.log("x0 =", newX0, ", x1 =", newX1, ", y0 =", newY0, ", y1 =", newY1);
       console.log("x1 - x0 =", newX1 - newX0);
       console.log("y1 - y0 =", newY1 - newY0);
 
@@ -240,7 +240,7 @@ export default function Result({ route }) {
     <View style={styles.container}>
       <StatusBar
         backgroundColor="#303234"
-        barStyle="light-content"
+        barStyle="dark-content"
       />
 
       {identifying && <View style={{ width: width, height: height, alignItems: 'center', justifyContent: 'center' }}>
@@ -256,7 +256,7 @@ export default function Result({ route }) {
             <BannerAd
               size={BannerAdSize.MEDIUM_RECTANGLE}
               unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                ios: TestIds.BANNER,
+                ios: 'ca-app-pub-1354543839348242/8298975964',
                 android: 'ca-app-pub-9597010572153445/1973906075',
               })}
               onAdFailedToLoad={(error) => {
@@ -268,12 +268,8 @@ export default function Result({ route }) {
         }
       </View>}
 
-      {!identifying && <View style={{ padding: 8, marginTop: 32 }}>
-        <Text style={{ fontWeight: 'bold', alignSelf: 'center', fontSize: 18 }}>Best matches</Text>
-      </View>}
-
       {!identifying && stamps.length > 0 && <ScrollView>
-        <ImageBackground style={{ backgroundColor: '#000', borderRadius: 8, alignSelf: 'center', width: 100, height: 100, alignItems: 'center', justifyContent: 'center' }} imageStyle={{ backgroundColor: '#000', borderRadius: 8, resizeMode: 'contain', borderRadius: 8 }} source={{ uri: route.params.image }}>
+        <ImageBackground style={{ backgroundColor: '#000', borderRadius: 8, alignSelf: 'center', marginTop: insets.top + 16, width: 100, height: 100, alignItems: 'center', justifyContent: 'center' }} imageStyle={{ backgroundColor: '#000', borderRadius: 8, resizeMode: 'contain', borderRadius: 8 }} source={{ uri: route.params.image }}>
           {stampCoord && <View style={{ position: 'absolute', borderWidth: 1, borderColor: 'yellow', top: stampCoord.y0, left: stampCoord.x0, width: stampCoord.x1 - stampCoord.x0, height: stampCoord.y1 - stampCoord.y0 }} />}
         </ImageBackground>
         {bannerError || isPurchased ?
@@ -282,7 +278,7 @@ export default function Result({ route }) {
             <BannerAd
               size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
               unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                ios: TestIds.BANNER,
+                ios: 'ca-app-pub-1354543839348242/8298975964',
                 android: 'ca-app-pub-9597010572153445/6050398794',
               })}
               onAdFailedToLoad={(error) => {
@@ -321,15 +317,18 @@ export default function Result({ route }) {
             navigation.navigate('Detail', { stampId: stamps[0].stampId })
           }}
         >
-          <ImageBackground style={{ width: 150, height: 150, margin: 8, alignSelf: 'center', alignItems: 'center', justifyContent: 'center' }} source={require('../assets/laurel.png')} imageStyle={{ resizeMode: 'contain' }}>
-            <ImageBackground style={{ width: 100, height: 100, alignSelf: 'center' }} source={{ uri: convertToImageUrl(stamps[0].images[0]) }} imageStyle={{ resizeMode: 'contain' }} />
-          </ImageBackground>
-
-          <Text style={{ color: '#FFF', alignSelf: 'center' }}>{"Best matched: " + Math.round(stamps[0].score * 10000) / 100 + "%"}</Text>
+          <View style={{ flexDirection: 'row' }}>
+            <ImageBackground style={{ width: 150, height: 150, margin: 8, alignSelf: 'center', alignItems: 'center', justifyContent: 'center' }} source={require('../assets/laurel.png')} imageStyle={{ resizeMode: 'contain' }}>
+              <ImageBackground style={{ width: 100, height: 100, alignSelf: 'center' }} source={{ uri: convertToImageUrl(stamps[0].images[0]) }} imageStyle={{ resizeMode: 'contain' }} />
+            </ImageBackground>
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ width: width - 220, marginBottom: 16, color: '#FFF', alignSelf: 'center', textAlign: 'center' }}>{"Best matched: " + Math.round(stamps[0].score * 10000) / 100 + "%"}</Text>
+              <Text style={{ width: width - 220, fontWeight: 'bold', color: '#FFF', textAlign: 'center' }}>{stamps[0].name}</Text>
+            </View>
+          </View>
 
           <View style={{ width: width - 32, flexDirection: 'row', justifyContent: 'space-between', padding: 8, alignSelf: 'center' }}>
             <View>
-              <Text style={{ fontWeight: 'bold', color: '#FFF' }}>{stamps[0].name}</Text>
               <Text style={{ color: '#FFF', fontSize: 10 }}>{stamps[0].issuedOn}</Text>
               <View style={{ width: width / 2, backgroundColor: '#ECEFF1', borderRadius: 16, padding: 8, marginTop: 5, alignItems: 'center', justifyContent: 'center' }}>
                 <Text>{stamps[0].country.trim()}</Text>
@@ -374,10 +373,15 @@ export default function Result({ route }) {
               navigation.navigate('Detail', { stampId: stamp.stampId })
             }}
           >
-            <ImageBackground style={{ width: 100, height: 100, margin: 16, alignSelf: 'center' }} source={{ uri: convertToImageUrl(stamp.images[0]) }} imageStyle={{ resizeMode: 'contain' }} />
+            <View style={{ flexDirection: 'row' }}>
+              <ImageBackground style={{ width: 100, height: 100, margin: 16, alignSelf: 'center' }} source={{ uri: convertToImageUrl(stamp.images[0]) }} imageStyle={{ resizeMode: 'contain' }} />
+              <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ width: width - 200, marginBottom: 16, color: '#26A69A', alignSelf: 'center', textAlign: 'center' }}>{"Accuracy: " + Math.round(stamp.score * 10000) / 100 + "%"}</Text>
+                <Text style={{ width: width - 200, fontWeight: 'bold', color: '#000', textAlign: 'center' }}>{stamp.name}</Text>
+              </View>
+            </View>
             <View style={{ width: width - 32, flexDirection: 'row', justifyContent: 'space-between', padding: 8, alignSelf: 'center' }}>
               <View>
-                <Text style={{ fontWeight: 'bold' }}>{stamp.name + " - " + Math.round(stamp.score * 10000) / 100 + "%"}</Text>
                 <Text style={{ fontSize: 10 }}>{stamp.issuedOn}</Text>
                 <View style={{ width: width / 2, backgroundColor: '#90A4AE', borderRadius: 16, padding: 8, marginTop: 5, alignItems: 'center', justifyContent: 'center' }}>
                   <Text style={{ color: '#FFF' }}>{stamp.country.trim()}</Text>
@@ -440,7 +444,7 @@ export default function Result({ route }) {
         <Text style={{ color: '#FFF', fontSize: 10, marginTop: 8, textAlign: 'center', alignSelf: 'center', fontStyle: 'italic' }}>If you want to know more about the stamp's information, rarity, and market value in a professional way, try asking our stamp expert!</Text>
       </TouchableOpacity>}
 
-      {!identifying && <TouchableOpacity style={{ position: 'absolute', top: 32, left: 16 }} onPress={() => {
+      {!identifying && <TouchableOpacity style={{ position: 'absolute', top: insets.top + 32, left: 16 }} onPress={() => {
         navigation.reset({
           index: 0,
           routes: [{ name: 'StampId' }]

@@ -143,6 +143,17 @@ export default function Setting({ navigation }) {
             <Ionicons name="chevron-forward-outline" color='#000000' size={20} />
           </TouchableOpacity>
 
+          <TouchableOpacity
+            style={styles.moreItem}
+            onPress={() => Linking.openURL('https://www.facebook.com/stamp.value')}
+          >
+            <View style={{ flexDirection: 'row' }}>
+              <Ionicons name="logo-facebook" color='#000000' size={20} />
+              <Text style={{ marginLeft: 20 }}>Community and support</Text>
+            </View>
+            <Ionicons name="chevron-forward-outline" color='#000000' size={20} />
+          </TouchableOpacity>
+
 
           <View style={{ alignSelf: 'center', width: '90%', height: 1, backgroundColor: '#CFD8DC' }} />
 
@@ -177,7 +188,7 @@ export default function Setting({ navigation }) {
             }}
           >
             <View style={{ flexDirection: 'row' }}>
-              <Ionicons name="card-outline" color='#000000' size={20} />
+              <Ionicons name="cube-outline" color='#000000' size={20} />
               <Text style={{ marginLeft: 20 }}>For TCG collectors</Text>
             </View>
             <Ionicons name="chevron-forward-outline" color='#000000' size={20} />
@@ -202,7 +213,7 @@ export default function Setting({ navigation }) {
               <BannerAd
                 size={BannerAdSize.MEDIUM_RECTANGLE}
                 unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                  ios: TestIds.BANNER,
+                  ios: 'ca-app-pub-1354543839348242/9312658828',
                   android: 'ca-app-pub-9597010572153445/4900058528',
                 })}
                 onAdFailedToLoad={(error) => {

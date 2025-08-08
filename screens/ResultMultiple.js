@@ -21,6 +21,21 @@ export default function ResultMultiple({ route }) {
   const [isShowLoading, setShowLoading] = useState(false);
   const [stamps, setStamps] = useState([]);
   const [imagePath, setImagePath] = useState(null);
+  const [showInstruction, setShowInstruction] = useState(true);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      AsyncStorage.getItem("hideMultiInstruction").then(result => {
+        if (result == "1") {
+          setShowInstruction(false);
+        }
+      });
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, [])
+  );
 
   function convertToSquareCoords(coordStr, imageWidth, imageHeight, squareSize) {
     try {
@@ -120,7 +135,7 @@ export default function ResultMultiple({ route }) {
         });
 
         // console.log(JSON.stringify(detectBody));
-        const data = await fetch('https://stampsnap.magicdev.fun/api/v2/detectMultipleStamp', {
+        const data = await fetch('https://stampsnap.stampidentifierai.com/api/v2/detectMultipleStamp', {
           method: 'POST',
           body: detectBody,
         });
@@ -185,7 +200,7 @@ export default function ResultMultiple({ route }) {
         });
 
         // console.log(JSON.stringify(detectBody));
-        const data = await fetch('https://stampsnap.magicdev.fun/api/v2/detectMultipleStamp', {
+        const data = await fetch('https://stampsnap.stampidentifierai.com/api/v2/detectMultipleStamp', {
           method: 'POST',
           body: detectBody,
         });
@@ -300,7 +315,7 @@ export default function ResultMultiple({ route }) {
             <BannerAd
               size={stamps.length > 0 ? BannerAdSize.ANCHORED_ADAPTIVE_BANNER : BannerAdSize.MEDIUM_RECTANGLE}
               unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                ios: TestIds.BANNER,
+                ios: 'ca-app-pub-1354543839348242/8706170074',
                 android: 'ca-app-pub-9597010572153445/1088374822',
               })}
               onAdFailedToLoad={(error) => {
@@ -349,6 +364,25 @@ export default function ResultMultiple({ route }) {
       }}>
         <ImageBackground source={require('../assets/back_detail_button.png')} style={{ width: 40, height: 40 }} />
       </TouchableOpacity>
+
+      {showInstruction && <View style={{ width: '100%', height: '100%', backgroundColor: '#000', position: 'absolute', top: 0, left: 0, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{ fontWeight: 'bold', margin: 16, color: '#FFF', textAlign: 'center', fontSize: 10 }}>{"If you need to identify multiple stamps at once, line them up and start scanning. Make sure they are aligned and oriented correctly."}</Text>
+        <ImageBackground style={{ width: width, height: width * 5 / 4 }} source={require('../assets/multiplescan.gif')} />
+        <TouchableOpacity
+          style={{ padding: 16, borderRadius: 24, margin: 16, backgroundColor: '#80CBC4' }}
+          onPress={async () => {
+            setShowInstruction(false);
+          }}
+        >
+          <Text style={{ fontWeight: 'bold' }}>  Start scanning  </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={async () => {
+          await AsyncStorage.setItem("hideMultiInstruction", "1");
+          setShowInstruction(false);
+        }}>
+          <Text style={{ fontWeight: 'bold', margin: 16, color: '#FFF', textDecorationLine: 'underline' }}>Do not show this guide again</Text>
+        </TouchableOpacity>
+      </View>}
     </ImageBackground>
   );
 }

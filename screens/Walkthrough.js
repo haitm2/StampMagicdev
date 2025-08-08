@@ -49,7 +49,7 @@ const data = [
   {
     image: require('../assets/onboard/onboard_4.jpg'),
     key: '4',
-    title: 'In-depth research with a stamp expert',
+    title: 'In-depth research\nwith a stamp expert',
     subTitle: 'Our stamp experts have a wealth of knowledge and can help you value any stamp.',
   },
 
@@ -134,7 +134,7 @@ export default function Walkthrough({ navigation }) {
           <BannerAd
             size={BannerAdSize.MEDIUM_RECTANGLE}
             unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-              ios: TestIds.BANNER,
+              ios: 'ca-app-pub-1354543839348242/3182380653',
               android: 'ca-app-pub-9597010572153445/2593028188',
             })}
             onAdFailedToLoad={(error) => {
