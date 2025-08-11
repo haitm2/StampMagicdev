@@ -18,6 +18,7 @@ import Detail from './screens/Detail';
 import Search from './screens/Search';
 import PolicyConfirm from './screens/PolicyConfirm';
 import ResultMultiple from './screens/ResultMultiple';
+import OnboardingSurvey from './screens/OnboardingSurvey';
 
 const Stack = createStackNavigator();
 
@@ -43,6 +44,11 @@ export default function App() {
           <Stack.Screen
             name="Walkthrough"
             component={Walkthrough}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="OnboardingSurvey"
+            component={OnboardingSurvey}
             options={{ headerShown: false }}
           />
           <Stack.Screen
@@ -100,11 +106,11 @@ export default function App() {
             component={Camera}
             options={{ headerShown: false }}
           />
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Setting"
             component={Setting}
             options={{ headerShown: true }}
-          />
+          /> */}
           <Stack.Screen
             name="StampExpert"
             component={StampExpert}

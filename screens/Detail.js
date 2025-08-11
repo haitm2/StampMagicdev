@@ -168,26 +168,28 @@ export default function Detail({ route }) {
         <ActivityIndicator size={"small"} />
         <Text style={{ margin: 8 }}>Getting stamp data...</Text>
       </View>}
+
+      {bannerError || isPurchased ?
+        null :
+        <View style={{ width: '100%', alignItems: 'center', marginTop: insets.top + 64 }}>
+          <BannerAd
+            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+            unitId={__DEV__ ? TestIds.BANNER : Platform.select({
+              ios: 'ca-app-pub-1354543839348242/5544820117',
+              android: 'ca-app-pub-9597010572153445/5144511231',
+            })}
+            onAdFailedToLoad={(error) => {
+              console.log(error);
+              setBannerError(true);
+            }}
+          />
+        </View>
+      }
+
       {stamp && stamp.images && <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ marginTop: 50 }} key={stamp._id}>
           <ImageBackground style={{ width: 150, height: 150, margin: 16, alignSelf: 'center' }} source={{ uri: convertToImageUrl(stamp.images[0]) }} imageStyle={{ resizeMode: 'contain' }} />
           <Text style={{ margin: 16, fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>{stamp.name}</Text>
-          {bannerError || isPurchased ?
-            null :
-            <View style={{ width: '100%', alignItems: 'center', marginTop: 16, marginBottom: 16 }}>
-              <BannerAd
-                size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-                unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                  ios: 'ca-app-pub-1354543839348242/5544820117',
-                  android: 'ca-app-pub-9597010572153445/5144511231',
-                })}
-                onAdFailedToLoad={(error) => {
-                  console.log(error);
-                  setBannerError(true);
-                }}
-              />
-            </View>
-          }
           {stamp.prices && <Text style={{ marginLeft: 16, fontSize: 16, fontWeight: 'bold', marginTop: 16 }}>Market price</Text>}
           {stamp.prices && <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={{ flexDirection: 'row', marginBottom: 16, marginTop: 16 }}>

@@ -19,7 +19,7 @@ import axios from 'axios';
 var isConnected = false;
 const productIds = Platform.select({
     ios: [
-        'com.ducdm.stampscanner.onetime',
+        'com.ducdm.tcgscanner.onetime',
     ],
     android: [
         'com.magicdev.stampsnap.premium',
@@ -28,7 +28,7 @@ const productIds = Platform.select({
 
 const subscriptionIds = Platform.select({
     ios: [
-        'com.ducdm.stampscanner.weekly'
+        'com.ducdm.tcgscanner.weekly'
     ],
     android: [
         'com.magicdev.stampsnap.weekly'
@@ -37,7 +37,7 @@ const subscriptionIds = Platform.select({
 
 const freetrialSubscriptionIds = Platform.select({
     ios: [
-        'com.ducdm.stampscanner.yearly'
+        'com.ducdm.tcgscanner.yearly'
     ],
     android: [
         'com.magicdev.stampsnap.yearly'
@@ -156,7 +156,7 @@ export async function restore() {
 
             if (purchase && purchase.length > 0) {
                 const latestPurchase = purchase[purchase.length - 1]; // Assuming the last purchase is the latest subscription
-                var isPremiumUser = await verifyReceiptAndCheckValidity(latestPurchase.transactionReceipt, 'aac162d7972d427ba476c9424c70061f', __DEV__);
+                var isPremiumUser = await verifyReceiptAndCheckValidity(latestPurchase.transactionReceipt, '286af8c31f23439d8d0f9ed9c7273070', __DEV__);
                 if (isPremiumUser) {
                     console.log("Day la user vip");
                     await AsyncStorage.setItem("purchased", "ok");

@@ -9,6 +9,9 @@ import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
 import LottieView from 'lottie-react-native';
+import TypewriterText from '../components/TypeWriterText';
+import LinearGradient from 'react-native-linear-gradient';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -18,6 +21,7 @@ export default function Setting({ navigation }) {
   const [bannerError, setBannerError] = useState(false);
   const [isPurchased, setPurchased] = useState(false);
   const [isShowLoading, setShowLoading] = useState(false);
+  const insets = useSafeAreaInsets();
 
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -69,7 +73,7 @@ export default function Setting({ navigation }) {
     navigation.setOptions({
       headerTitle: () => (
         <View>
-          <Text style={{ color: '#000000', alignSelf: 'center', fontSize: 20, fontWeight: 'bold' }}>Setting</Text>
+          <Text style={{ color: '#FFF', alignSelf: 'center', fontSize: 20, fontWeight: 'bold' }}>Settings</Text>
         </View>
       ),
     });
@@ -77,11 +81,12 @@ export default function Setting({ navigation }) {
 
   return (
     <View style={styles.main}>
-      <StatusBar
-        backgroundColor="#1f0d03"
-        barStyle="light-content"
+      <ImageBackground
+        style={{ width: width, height: Math.round(width * 1015 / 2048) }}
+        source={require('../assets/collection_banner.png')}
+        imageStyle={{ borderBottomLeftRadius: 32, borderBottomRightRadius: 32 }}
       />
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {
           !isPurchased && <TouchableOpacity
             style={{ marginLeft: 16, marginTop: 16, width: width - 32, borderRadius: 16, backgroundColor: '#000' }}
@@ -154,7 +159,6 @@ export default function Setting({ navigation }) {
             <Ionicons name="chevron-forward-outline" color='#000000' size={20} />
           </TouchableOpacity>
 
-
           <View style={{ alignSelf: 'center', width: '90%', height: 1, backgroundColor: '#CFD8DC' }} />
 
           <Text style={{ fontWeight: 'bold', color: '#00796B', marginLeft: 16, marginTop: 16 }}>More apps</Text>
@@ -209,7 +213,7 @@ export default function Setting({ navigation }) {
 
           {bannerError || isPurchased ?
             null :
-            <View style={{ width: '100%', alignItems: 'center', marginBottom: 8, marginBottom: 8 }}>
+            <View style={{ width: '100%', alignItems: 'center', marginBottom: 8 }}>
               <BannerAd
                 size={BannerAdSize.MEDIUM_RECTANGLE}
                 unitId={__DEV__ ? TestIds.BANNER : Platform.select({
@@ -262,8 +266,20 @@ export default function Setting({ navigation }) {
             <Ionicons name="chevron-forward-outline" color='#000000' size={20} />
           </TouchableOpacity>
         </View>
-        <View style={{ height: 100 }} />
+        <View style={{ height: 200 }} />
       </ScrollView>
+
+      {!isPurchased && <TouchableOpacity
+        style={{ position: 'absolute', bottom: insets.bottom + 90, right: 20, flexDirection: 'row' }}
+        onPress={async () => {
+          navigation.navigate('OnboardingSurvey');
+        }}
+      >
+        <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#9E9D24', '#827717']} style={styles.chatbox}>
+          <TypewriterText text={'Small survey'} loop={true} speed={200} style={{ fontWeight: 'bold', color: '#FFF', marginLeft: 16, marginRight: 16 }} />
+        </LinearGradient>
+        <ImageBackground source={require('../assets/pointer.png')} style={{ width: 64, height: 64, margin: 8 }} />
+      </TouchableOpacity>}
 
       {!isPurchased && isShowLoading && <View style={{ width: width, height: height, position: 'absolute', top: 0, right: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
         <View style={{ width: 50, height: 50, backgroundColor: '#FFF', borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
@@ -295,5 +311,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 3,
-  }
+  },
+  chatbox: {
+    borderWidth: 1, borderRadius: 20, marginTop: 24, height: 40, borderColor: '#FFF',
+    // paddingLeft: 16,
+    borderRadius: 32,
+    // paddingRight: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

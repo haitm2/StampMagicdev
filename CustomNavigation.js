@@ -5,6 +5,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Main from "./screens/Main";
 import Camera from "./screens/Camera";
 import Collection from "./screens/Collection";
+import Setting from "./screens/Setting";
+import Discovery from "./screens/Discovery";
 
 const Stack = createStackNavigator();
 
@@ -14,11 +16,6 @@ const MainNavigator = () => {
       headerShown: true,
       headerTransparent: true,
       headerShadowVisible: false,
-      // headerStyle: {
-      //   backgroundColor: '#D2E3DC',
-      // },
-      // headerTintColor: '#fff',
-      // headerTitleAlign: 'center',
     }}>
       <Stack.Screen
         name="Main"
@@ -30,6 +27,23 @@ const MainNavigator = () => {
 
 export { MainNavigator };
 
+const DiscoveryNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={{
+      headerShown: true,
+      headerTransparent: true,
+      headerShadowVisible: false,
+    }}>
+      <Stack.Screen
+        name="Discovery"
+        component={Discovery}
+      />
+    </Stack.Navigator>
+  );
+}
+
+export { DiscoveryNavigator };
+
 const CameraNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{
@@ -39,8 +53,6 @@ const CameraNavigator = () => {
       headerStyle: {
         backgroundColor: '#F5F5F5',
       },
-      // headerTintColor: '#fff',
-      // headerTitleAlign: 'center',
     }}>
       <Stack.Screen
         name="Camera"
@@ -58,11 +70,6 @@ const CollectionNavigator = () => {
       headerShown: true,
       headerTransparent: true,
       headerShadowVisible: false,
-      // headerStyle: {
-      //   backgroundColor: '#D2E3DC',
-      // },
-      // headerTintColor: '#fff',
-      // headerTitleAlign: 'center',
     }}>
       <Stack.Screen
         name="Collection"
@@ -73,3 +80,21 @@ const CollectionNavigator = () => {
 }
 
 export { CollectionNavigator };
+
+
+const SettingNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={{
+      headerShown: true,
+      headerTransparent: true,
+      headerShadowVisible: false,
+    }}>
+      <Stack.Screen
+        name="Setting"
+        component={Setting}
+      />
+    </Stack.Navigator>
+  );
+}
+
+export { SettingNavigator };

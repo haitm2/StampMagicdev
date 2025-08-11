@@ -101,7 +101,7 @@ export default function Camera() {
           <Text style={{ fontWeight: 'bold', textAlign: 'center', color: '#fff', marginTop: 16, fontSize: 16 }}>Let us access your camera</Text>
           <Text style={{ textAlign: 'center', margin: 8, color: '#fff' }}>{"We need access to your camera to take a photo\nand help you identify the stamp."}</Text>
           <TouchableOpacity onPress={requestPermission} style={styles.continueBtn}>
-            <Text style={{ textAlign: 'center', color: '#fff', fontWeight: 'bold' }} >{"Allow"}</Text>
+            <Text style={{ textAlign: 'center', color: '#fff', fontWeight: 'bold' }} >{"Continue"}</Text>
           </TouchableOpacity>
         </ImageBackground>
       </ScrollView>

@@ -8,6 +8,7 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 import messaging from '@react-native-firebase/messaging';
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
 
 async function requestUserPermission() {
   const authorizationStatus = await messaging().requestPermission();
@@ -41,7 +42,7 @@ export default function Notification({ navigation }) {
   useEffect(() => {
     setLoading(true);
     console.log("start loading...")
-    sleep(2000).then(async () => {
+    sleep(3000).then(async () => {
       requestNotifyPermission();
       setLoading(false);
     })
@@ -63,13 +64,25 @@ export default function Notification({ navigation }) {
 
     <ImageBackground source={require('../assets/bg_inapp.webp')} style={styles.container}>
       <ScrollView style={{ width: '100%', height: '100%' }}>
-        <ImageBackground style={{ alignSelf: 'center', width: width * 0.8, height: width * 0.8, marginTop: 100 }} source={require('../assets/noti.png')} imageStyle={{ resizeMode: 'contain' }} />
+        <ImageBackground style={{ alignSelf: 'center', width: 180, height: 180, marginTop: 100 }} source={require('../assets/noti.png')} imageStyle={{ resizeMode: 'contain' }} />
         <Text style={{ color: '#FFF', textAlign: 'center', fontSize: 22, fontWeight: 'bold', marginTop: 16 }}>Allow Push Notifications</Text>
         <Text style={{ color: '#FFF', margin: 16, textAlign: 'center', fontSize: 12 }}>Without this, Stamp Identifier can’t notify you when new rare stamps are discovered or added.</Text>
 
         {loading ? <ActivityIndicator color={'#00A362'} size={'large'} /> : <TouchableOpacity onPress={continueClick} style={styles.actionBtn}>
           <Text style={{ textAlign: 'center', margin: 16, color: '#FFF', fontWeight: 'bold', fontSize: 18 }} >Continue</Text>
         </TouchableOpacity>}
+        <View style={{ marginTop: 16, alignSelf: 'center', alignItems: 'center' }}>
+          <BannerAd
+            size={BannerAdSize.MEDIUM_RECTANGLE}
+            unitId={__DEV__ ? TestIds.BANNER : Platform.select({
+              ios: TestIds.BANNER,
+              android: 'ca-app-pub-9597010572153445/8704872908',
+            })}
+            onAdFailedToLoad={(error) => {
+              console.log(error);
+            }}
+          />
+        </View>
         <View style={{ height: 100 }} />
       </ScrollView>
 

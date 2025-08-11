@@ -171,6 +171,7 @@ export default function ResultMultiple({ route }) {
             ]
           );
         } else {
+          await AsyncStorage.setItem("scannedMulti", "1");
           showRateDialog();
         }
       } catch (err) {
@@ -330,11 +331,7 @@ export default function ResultMultiple({ route }) {
           <TouchableOpacity
             style={styles.item} key={stamp.stampId + stamp.coords}
             onPress={() => {
-              if (isPurchased) {
-                navigation.navigate('Detail', { stampId: stamp.stampId })
-              } else {
-                navigation.navigate('Premium', { type: "IDENTIFY MULTIPLE STAMP" });
-              }
+              navigation.navigate('Detail', { stampId: stamp.stampId })
             }}
           >
             <ImageBackground style={{ width: 80, height: 80, marginLeft: 8 }} source={{ uri: imagePath }} imageStyle={{ resizeMode: 'contain', borderRadius: 8 }}>

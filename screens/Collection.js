@@ -9,6 +9,9 @@ import { get, set } from 'lodash';
 import { IAP } from '../utils';
 import { AdEventType, BannerAd, BannerAdSize, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
 import LottieView from 'lottie-react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import TypewriterText from '../components/TypeWriterText';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const interstitialAdUnitId = __DEV__ ? TestIds.INTERSTITIAL : Platform.select({
   ios: 'ca-app-pub-1354543839348242/8418395467',
@@ -29,6 +32,7 @@ export default function Collection() {
   const [isPurchased, setPurchased] = useState(false);
   const [bannerError, setBannerError] = useState(false);
   const [isShowLoading, setShowLoading] = useState(false);
+  const insets = useSafeAreaInsets();
 
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -184,15 +188,6 @@ export default function Collection() {
         <View>
           <Text style={{ color: '#FFF', alignSelf: 'center', fontSize: 20, fontWeight: 'bold' }}>Collections</Text>
         </View>
-      ),
-      headerRight: () => (
-        <TouchableOpacity style={{ position: 'absolute', top: 8, right: 16 }}
-          onPress={() => navigation.navigate("Setting")}
-        >
-          <View style={[styles.smallViewIcon, { marginTop: 4, width: 36, height: 36 }]}>
-            <ImageBackground source={require('../assets/setting.png')} style={{ width: 24, height: 24 }} />
-          </View>
-        </TouchableOpacity>
       )
     });
   }, [navigation]);
@@ -309,7 +304,22 @@ export default function Collection() {
                 }
                 navigation.navigate('CollectionDetail', { collectionId: item.id, collectionName: item.name })
               } else {
-                alert('This collection does not have any stamps yet. Click the scan button below to scan the stamp and add it to this collection.');
+                // alert('This collection does not have any stamps yet. Click the scan button below to scan the stamp and add it to this collection.');
+                Alert.alert(
+                  'This collection does not have any stamps yet',
+                  'Click the "Search" button to find a stamp to add to your collection, or press the scan button at the bottom to scan a new stamp.',
+                  [
+                    {
+                      text: 'Cancel'
+                    },
+                    {
+                      text: 'Search',
+                      onPress: () => {
+                        navigation.navigate('Search');
+                      }
+                    }
+                  ]
+                );
               }
             }}
           >
@@ -358,6 +368,25 @@ export default function Collection() {
         ))}
         <View style={{ height: 300 }} />
       </ScrollView>}
+      <TouchableOpacity
+        style={{ position: 'absolute', bottom: insets.bottom + 90, right: 20, flexDirection: 'row' }}
+        onPress={async () => {
+          try {
+            if (!isPurchased) {
+              setShowLoading(true);
+              console.log("start loading...")
+              await sleep(1000)
+              setShowLoading(false);
+            }
+          } catch (err) { }
+          navigation.navigate('StampExpert');
+        }}
+      >
+        <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#37D9BE', '#097754']} style={styles.chatbox}>
+          <TypewriterText text={'Stamp Expert'} loop={true} speed={200} style={{ fontWeight: 'bold', color: '#FFF', marginLeft: 16, marginRight: 16 }} />
+        </LinearGradient>
+        <ImageBackground source={require('../assets/chatbot.png')} style={{ width: 80, height: 80 }} />
+      </TouchableOpacity>
       {!isPurchased && isShowLoading && <View style={{ width: width, height: height, position: 'absolute', top: 0, right: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
         <View style={{ width: 50, height: 50, backgroundColor: '#FFF', borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
           <LottieView source={require('../assets/loadding.json')} autoPlay loop style={{ width: '200%', height: '200%' }} />
@@ -419,5 +448,13 @@ const styles = StyleSheet.create({
     borderColor: '#00A362',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  chatbox: {
+    borderWidth: 1, borderRadius: 20, marginTop: 24, height: 40, borderColor: '#FFF',
+    // paddingLeft: 16,
+    borderRadius: 32,
+    // paddingRight: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 });

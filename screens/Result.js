@@ -256,8 +256,8 @@ export default function Result({ route }) {
             <BannerAd
               size={BannerAdSize.MEDIUM_RECTANGLE}
               unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                ios: 'ca-app-pub-1354543839348242/8298975964',
-                android: 'ca-app-pub-9597010572153445/1973906075',
+                ios: TestIds.BANNER,
+                android: 'ca-app-pub-9597010572153445/1603427875',
               })}
               onAdFailedToLoad={(error) => {
                 console.log(error);
@@ -272,22 +272,6 @@ export default function Result({ route }) {
         <ImageBackground style={{ backgroundColor: '#000', borderRadius: 8, alignSelf: 'center', marginTop: insets.top + 16, width: 100, height: 100, alignItems: 'center', justifyContent: 'center' }} imageStyle={{ backgroundColor: '#000', borderRadius: 8, resizeMode: 'contain', borderRadius: 8 }} source={{ uri: route.params.image }}>
           {stampCoord && <View style={{ position: 'absolute', borderWidth: 1, borderColor: 'yellow', top: stampCoord.y0, left: stampCoord.x0, width: stampCoord.x1 - stampCoord.x0, height: stampCoord.y1 - stampCoord.y0 }} />}
         </ImageBackground>
-        {bannerError || isPurchased ?
-          null :
-          <View style={{ width: '100%', alignItems: 'center', marginTop: 16, marginBottom: 16 }}>
-            <BannerAd
-              size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-              unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                ios: 'ca-app-pub-1354543839348242/8298975964',
-                android: 'ca-app-pub-9597010572153445/6050398794',
-              })}
-              onAdFailedToLoad={(error) => {
-                console.log(error);
-                setBannerError(true);
-              }}
-            />
-          </View>
-        }
         <TouchableOpacity
           key={stamps[0]._id}
           style={{
@@ -343,6 +327,24 @@ export default function Result({ route }) {
             </View>
           </View>
         </TouchableOpacity>
+
+        {bannerError || isPurchased ?
+          null :
+          <View style={{ width: '100%', alignItems: 'center', marginTop: 16, marginBottom: 16 }}>
+            <BannerAd
+              size={BannerAdSize.MEDIUM_RECTANGLE}
+              unitId={__DEV__ ? TestIds.BANNER : Platform.select({
+                ios: 'ca-app-pub-1354543839348242/8298975964',
+                android: 'ca-app-pub-9597010572153445/6050398794',
+              })}
+              onAdFailedToLoad={(error) => {
+                console.log(error);
+                setBannerError(true);
+              }}
+            />
+          </View>
+        }
+
         {stamps.slice(1).map(stamp => (
           <TouchableOpacity
             key={stamp._id}
