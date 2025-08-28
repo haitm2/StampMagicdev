@@ -75,7 +75,6 @@ export default function PolicyConfirm({ navigation }) {
               navigation.reset({
                 index: 0,
                 routes: [{ name: 'Walkthrough' }],
-                // routes: [{ name: 'OnboardingSurvey' }],
               });
             }}>
               <Text style={styles.buttonText}>Continue</Text>

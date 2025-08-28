@@ -18,7 +18,8 @@ import Detail from './screens/Detail';
 import Search from './screens/Search';
 import PolicyConfirm from './screens/PolicyConfirm';
 import ResultMultiple from './screens/ResultMultiple';
-import OnboardingSurvey from './screens/OnboardingSurvey';
+import Offer from './screens/Offer';
+import Appraiser from './screens/Appraiser';
 
 const Stack = createStackNavigator();
 
@@ -44,11 +45,6 @@ export default function App() {
           <Stack.Screen
             name="Walkthrough"
             component={Walkthrough}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="OnboardingSurvey"
-            component={OnboardingSurvey}
             options={{ headerShown: false }}
           />
           <Stack.Screen
@@ -92,6 +88,11 @@ export default function App() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
+            name="Appraiser"
+            component={Appraiser}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
             name="CollectionDetail"
             component={CollectionDetail}
             options={{ headerShown: false }}
@@ -123,6 +124,10 @@ export default function App() {
           <Stack.Screen
             name="Premium"
             component={Premium}
+          />
+          <Stack.Screen
+            name="Offer"
+            component={Offer}
           />
         </Stack.Group>
       </Stack.Navigator>

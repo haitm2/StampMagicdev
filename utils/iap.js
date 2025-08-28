@@ -19,7 +19,7 @@ import axios from 'axios';
 var isConnected = false;
 const productIds = Platform.select({
     ios: [
-        'com.ducdm.tcgscanner.onetime',
+        'com.ducdm.stampscanner.onetime',
     ],
     android: [
         'com.magicdev.stampsnap.premium',
@@ -28,7 +28,7 @@ const productIds = Platform.select({
 
 const subscriptionIds = Platform.select({
     ios: [
-        'com.ducdm.tcgscanner.weekly'
+        'com.ducdm.stampscanner.weekly'
     ],
     android: [
         'com.magicdev.stampsnap.weekly'
@@ -37,10 +37,10 @@ const subscriptionIds = Platform.select({
 
 const freetrialSubscriptionIds = Platform.select({
     ios: [
-        'com.ducdm.tcgscanner.yearly'
+        'com.ducdm.stampscanner.weekly_trial'
     ],
     android: [
-        'com.magicdev.stampsnap.yearly'
+        'com.magicdev.stampsnap.weekly_trial'
     ],
 });
 
@@ -98,10 +98,10 @@ export async function connect() {
 }
 
 export async function isPurchased() {
-    const value = await AsyncStorage.getItem("purchased");
-    if (value == 'ok') {
-        return true;
-    }
+    // const value = await AsyncStorage.getItem("purchased");
+    // if (value == 'ok') {
+    //     return true;
+    // }
     return false;
     // return true;
 }

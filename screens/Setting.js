@@ -154,10 +154,27 @@ export default function Setting({ navigation }) {
           >
             <View style={{ flexDirection: 'row' }}>
               <Ionicons name="logo-facebook" color='#000000' size={20} />
-              <Text style={{ marginLeft: 20 }}>Community and support</Text>
+              <Text style={{ marginLeft: 20 }}>Community</Text>
             </View>
             <Ionicons name="chevron-forward-outline" color='#000000' size={20} />
           </TouchableOpacity>
+
+          {bannerError || isPurchased ?
+            null :
+            <View style={{ width: '100%', alignItems: 'center', marginBottom: 8 }}>
+              <BannerAd
+                size={BannerAdSize.MEDIUM_RECTANGLE}
+                unitId={__DEV__ ? TestIds.BANNER : Platform.select({
+                  ios: 'ca-app-pub-1354543839348242/9312658828',
+                  android: 'ca-app-pub-9597010572153445/4900058528',
+                })}
+                onAdFailedToLoad={(error) => {
+                  console.log(error);
+                  setBannerError(true);
+                }}
+              />
+            </View>
+          }
 
           <View style={{ alignSelf: 'center', width: '90%', height: 1, backgroundColor: '#CFD8DC' }} />
 
@@ -211,23 +228,6 @@ export default function Setting({ navigation }) {
             <Ionicons name="chevron-forward-outline" color='#000000' size={20} />
           </TouchableOpacity>}
 
-          {bannerError || isPurchased ?
-            null :
-            <View style={{ width: '100%', alignItems: 'center', marginBottom: 8 }}>
-              <BannerAd
-                size={BannerAdSize.MEDIUM_RECTANGLE}
-                unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                  ios: 'ca-app-pub-1354543839348242/9312658828',
-                  android: 'ca-app-pub-9597010572153445/4900058528',
-                })}
-                onAdFailedToLoad={(error) => {
-                  console.log(error);
-                  setBannerError(true);
-                }}
-              />
-            </View>
-          }
-
           <View style={{ alignSelf: 'center', width: '90%', height: 1, backgroundColor: '#CFD8DC' }} />
 
           <Text style={{ fontWeight: 'bold', color: '#00796B', marginLeft: 16, marginTop: 16 }}>Legal</Text>
@@ -268,18 +268,6 @@ export default function Setting({ navigation }) {
         </View>
         <View style={{ height: 200 }} />
       </ScrollView>
-
-      {!isPurchased && <TouchableOpacity
-        style={{ position: 'absolute', bottom: insets.bottom + 90, right: 20, flexDirection: 'row' }}
-        onPress={async () => {
-          navigation.navigate('OnboardingSurvey');
-        }}
-      >
-        <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#9E9D24', '#827717']} style={styles.chatbox}>
-          <TypewriterText text={'Small survey'} loop={true} speed={200} style={{ fontWeight: 'bold', color: '#FFF', marginLeft: 16, marginRight: 16 }} />
-        </LinearGradient>
-        <ImageBackground source={require('../assets/pointer.png')} style={{ width: 64, height: 64, margin: 8 }} />
-      </TouchableOpacity>}
 
       {!isPurchased && isShowLoading && <View style={{ width: width, height: height, position: 'absolute', top: 0, right: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
         <View style={{ width: 50, height: 50, backgroundColor: '#FFF', borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>

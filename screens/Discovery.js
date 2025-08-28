@@ -7,7 +7,6 @@ import InAppReview from 'react-native-in-app-review';
 import { ArticleGetter, IAP } from '../utils';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AdEventType, BannerAd, BannerAdSize, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
 import LottieView from 'lottie-react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import TypewriterText from '../components/TypeWriterText';
@@ -15,13 +14,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
-
-const interstitialAdUnitId = __DEV__ ? TestIds.INTERSTITIAL : Platform.select({
-  ios: TestIds.INTERSTITIAL,
-  android: 'ca-app-pub-9597010572153445/6657294065'
-});
-
-const interstitial = InterstitialAd.createForAdRequest(interstitialAdUnitId);
 
 export default function Discovery({ navigation }) {
 
@@ -40,7 +32,7 @@ export default function Discovery({ navigation }) {
   useEffect(() => {
     setShowLoading(true);
     console.log("start loading...")
-    sleep(2000).then(async () => {
+    sleep(1000).then(async () => {
       setShowLoading(false);
     })
   }, []);
@@ -59,20 +51,6 @@ export default function Discovery({ navigation }) {
       };
     }, [])
   );
-
-  useEffect(() => {
-    const unsubscribe = interstitial.addAdEventListener(AdEventType.LOADED, () => {
-      console.log("Da load xong ad")
-    });
-
-    // Start loading the interstitial straight away
-    IAP.isPurchased().then(result => {
-      if (result == false) interstitial.load();
-    });
-
-    // Unsubscribe from events on unmount
-    return unsubscribe;
-  }, []);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -98,29 +76,13 @@ export default function Discovery({ navigation }) {
 
   return (
     <View style={styles.main}>
+      <ImageBackground
+        style={{ width: width, height: Math.round(width * 1015 / 2048) }}
+        source={require('../assets/collection_banner.png')}
+        imageStyle={{ borderBottomLeftRadius: 32, borderBottomRightRadius: 32 }}
+      >
+      </ImageBackground>
       <ScrollView>
-        <ImageBackground
-          style={{ width: width, height: isPurchased ? Math.round(width * 1015 / 2048) : bannerError ? 200 : null }}
-          source={require('../assets/collection_banner.png')}
-          imageStyle={{ borderBottomLeftRadius: 32, borderBottomRightRadius: 32 }}
-        >
-          {bannerError || isPurchased ?
-            null :
-            <View style={{ width: '100%', alignItems: 'center', marginTop: insets.top + 64, marginBottom: 16 }}>
-              <BannerAd
-                size={BannerAdSize.MEDIUM_RECTANGLE}
-                unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                  ios: TestIds.BANNER,
-                  android: 'ca-app-pub-9597010572153445/6078709569',
-                })}
-                onAdFailedToLoad={(error) => {
-                  console.log(error);
-                  setBannerError(true);
-                }}
-              />
-            </View>
-          }
-        </ImageBackground>
         <ScrollView showsHorizontalScrollIndicator={false} horizontal marginTop={16}>
           <View style={{ flexDirection: 'row' }}>
             {discovery.map(item => (
@@ -130,15 +92,8 @@ export default function Discovery({ navigation }) {
                   if (!isPurchased) {
                     setShowLoading(true);
                     console.log("start loading...")
-                    await sleep(2000)
+                    await sleep(1000)
                     setShowLoading(false);
-                    try {
-                      interstitial.show();
-                      setLoaded(false);
-                      interstitial.load();
-                    } catch {
-                      interstitial.load();
-                    }
                   }
                   navigation.navigate('Article', { title: item.title.split('\n')[0], image: item.image, contents: item.contents })
                 }}
@@ -177,18 +132,6 @@ export default function Discovery({ navigation }) {
         ))}
         <View style={{ height: 200 }} />
       </ScrollView>
-
-      {!isPurchased && <TouchableOpacity
-        style={{ position: 'absolute', bottom: insets.bottom + 90, right: 20, flexDirection: 'row' }}
-        onPress={async () => {
-          navigation.navigate('OnboardingSurvey');
-        }}
-      >
-        <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#9E9D24', '#827717']} style={styles.chatbox}>
-          <TypewriterText text={'Small survey'} loop={true} speed={200} style={{ fontWeight: 'bold', color: '#FFF', marginLeft: 16, marginRight: 16 }} />
-        </LinearGradient>
-        <ImageBackground source={require('../assets/pointer.png')} style={{ width: 64, height: 64, margin: 8 }} />
-      </TouchableOpacity>}
 
       {!isPurchased && isShowLoading && <View style={{ width: width, height: height, position: 'absolute', top: 0, right: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
         <View style={{ width: 50, height: 50, backgroundColor: '#FFF', borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>

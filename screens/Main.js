@@ -24,34 +24,6 @@ export default function Main({ navigation, route }) {
 
   const insets = useSafeAreaInsets();
 
-  const getTodayString = () => {
-    const now = new Date();
-    const yyyy = now.getFullYear();
-    const mm = String(now.getMonth() + 1).padStart(2, '0'); // tháng bắt đầu từ 0
-    const dd = String(now.getDate()).padStart(2, '0');
-    return `${yyyy}-${mm}-${dd}`;
-  };
-
-  const checkDailyScanLimit = async () => {
-    try {
-      console.log("checkDailyScanLimit...");
-      const today = getTodayString();
-      const raw = await AsyncStorage.getItem('dailyScan');
-      console.log(">>>>>>>>>>>> raw", raw);
-      if (!raw) return true;
-
-      const data = JSON.parse(raw);
-      if (data.date === today && data.count >= MAX_SCAN_PER_DAY) {
-        return false
-      } else {
-        return true;
-      }
-    } catch (e) {
-      console.error('Lỗi kiểm tra scan limit', e);
-      return true;
-    }
-  };
-
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -121,13 +93,13 @@ export default function Main({ navigation, route }) {
   );
 
   useEffect(() => {
-    IAP.isPurchased().then(async (result) => {
-      if (result == false) {
-        await sleep(1000);
-        var lastType = "HOME IAP POPUP";
-        navigation.navigate('Premium', { type: lastType });
-      }
-    });
+    // IAP.isPurchased().then(async (result) => {
+    //   if (result == false) {
+    //     await sleep(1000);
+    //     var lastType = "HOME IAP POPUP";
+    //     navigation.navigate('Premium', { type: lastType });
+    //   }
+    // });
     // AsyncStorage.clear();
   }, []);
 
@@ -196,26 +168,7 @@ export default function Main({ navigation, route }) {
               <TouchableOpacity
                 style={{ width: width / 2 - 24, marginLeft: 16, backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8, flexDirection: 'row', alignItems: 'center' }}
                 onPress={async () => {
-                  var canScan = await checkDailyScanLimit();
-                  if (canScan || isPurchased) {
-                    navigation.navigate('Camera');
-                  } else {
-                    Alert.alert(
-                      'Limit today',
-                      'You have scanned all ' + MAX_SCAN_PER_DAY + ' times today.Come back tomorrow! Or try to register the Premium package now!',
-                      [
-                        {
-                          text: 'Ok, I\'ll be back tomorrow.',
-                        },
-                        {
-                          text: 'Register the Premium package',
-                          onPress: () => {
-                            navigation.navigate('Premium', { type: 'HOME SCREEN -> LIMIT TODAY ALERT' });
-                          }
-                        }
-                      ]
-                    );
-                  }
+                  navigation.navigate('Camera');
                 }}
               >
                 <ImageBackground style={{ width: 32, height: 32, margin: 8 }} source={require('../assets/ic_camera.png')} />
@@ -227,9 +180,8 @@ export default function Main({ navigation, route }) {
         {
           !isPurchased && <TouchableOpacity
             style={{ marginLeft: 16, marginTop: 16, width: width - 32, borderRadius: 16, backgroundColor: '#000' }}
-            onPress={async () => {
-              var lastType = "HOME IAP BANNER";
-              navigation.navigate('Premium', { type: lastType });
+            onPress={() => {
+              navigation.navigate('Premium', { type: 'HOME IAP BANNER' });
             }}
           >
             <ImageBackground source={require('../assets/premium_stamp.png')} style={{ position: 'absolute', bottom: 0, right: 0, width: width - 32, height: Math.round((width - 32) * 510 / 2048) }} imageStyle={{ resizeMode: 'contain' }} />
@@ -240,35 +192,59 @@ export default function Main({ navigation, route }) {
           </TouchableOpacity>
         }
 
-        <TouchableOpacity
-          style={{ marginLeft: 16, marginTop: 16, width: width - 32, borderRadius: 16, backgroundColor: '#004D40' }}
-          onPress={async () => {
-            if (!isPurchased) {
-              var scannedMulti = await AsyncStorage.getItem("scannedMulti");
-              if (!scannedMulti) {
-                setShowLoading(true);
-                console.log("start loading...")
-                await sleep(1000)
-                setShowLoading(false);
-                navigation.navigate('ResultMultiple');
+        <View style={{ flexDirection: 'row' }}>
+          <TouchableOpacity
+            style={{ marginLeft: 16, marginTop: 16, width: width / 2 - 24, borderRadius: 16, backgroundColor: '#3E2723', alignItems: 'center' }}
+            onPress={async () => {
+              if (!isPurchased) {
+                var scannedAppraiser = await AsyncStorage.getItem("scannedAppraiser");
+                if (!scannedAppraiser) {
+                  setShowLoading(true);
+                  console.log("start loading...")
+                  await sleep(1000)
+                  setShowLoading(false);
+                  navigation.navigate('Appraiser');
+                } else {
+                  navigation.navigate('Premium', { type: 'Unlock Appraiser' });
+                }
               } else {
-                navigation.navigate('Premium', { type: 'IDENTIFY MULTIPLE STAMP' });
+                navigation.navigate('Appraiser');
               }
-            } else {
-              navigation.navigate('ResultMultiple');
-            }
-          }}
-        >
-          <ImageBackground source={require('../assets/multiple_stamps.png')} style={{ width: width - 32, height: 100 }} imageStyle={{ resizeMode: 'contain' }} />
-          <View style={{ width: width - 150, margin: 16 }}>
-            <Text style={{ fontWeight: 'bold', color: '#FFF' }}>{"🌟 New feature"}</Text>
-            <Text style={{ fontSize: 10, color: '#FFF' }}>Identify multiple stamps at once</Text>
-          </View>
-          <View style={{ position: 'absolute', bottom: 16, right: 16, borderRadius: 8, backgroundColor: '#E0F2F1', padding: 8 }}>
-            <Text style={{ fontWeight: '600' }}>  Try now →  </Text>
-          </View>
-          <LottieView source={require('../assets/shining_stars.json')} autoPlay loop style={{ position: 'absolute', top: 16, left: 16, width: 100, height: 100 }} />
-        </TouchableOpacity>
+            }}
+          >
+            <ImageBackground source={require('../assets/appraiser.png')} style={{ width: 100, height: 100 }} imageStyle={{ resizeMode: 'contain' }} />
+            <View style={{ margin: 16 }}>
+              <Text style={{ alignSelf: 'center', fontWeight: 'bold', color: '#FFF', marginBottom: 8 }}>{"Stamp Appraiser"}</Text>
+              <Text style={{ fontSize: 10, color: '#FFF', textAlign: 'justify' }}>{"Determine the value of your stamps with our stamp experts, based on their condition and rarity."}</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{ marginLeft: 16, marginTop: 16, width: width / 2 - 24, borderRadius: 16, backgroundColor: '#004D40', alignItems: 'center' }}
+            onPress={async () => {
+              if (!isPurchased) {
+                var scannedMulti = await AsyncStorage.getItem("scannedMulti");
+                if (!scannedMulti) {
+                  setShowLoading(true);
+                  console.log("start loading...")
+                  await sleep(1000)
+                  setShowLoading(false);
+                  navigation.navigate('ResultMultiple');
+                } else {
+                  navigation.navigate('Premium', { type: 'IDENTIFY MULTIPLE STAMP' });
+                }
+              } else {
+                navigation.navigate('ResultMultiple');
+              }
+            }}
+          >
+            <ImageBackground source={require('../assets/multiple_stamps.png')} style={{ width: 100, height: 100 }} imageStyle={{ resizeMode: 'contain' }} />
+            <View style={{ margin: 16 }}>
+              <Text style={{ alignSelf: 'center', fontWeight: 'bold', color: '#FFF', marginBottom: 8 }}>{"Identify multiple\nstamps at once"}</Text>
+              <Text style={{ fontSize: 10, color: '#FFF', textAlign: 'justify' }}>{"Save time if your collection is large."}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
         <View style={{ height: 200 }} />
       </ScrollView >
