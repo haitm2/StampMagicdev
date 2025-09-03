@@ -7,7 +7,6 @@ import InAppReview from 'react-native-in-app-review';
 import { IAP } from '../utils';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
 import LottieView from 'lottie-react-native';
 import TypewriterText from '../components/TypeWriterText';
 import LinearGradient from 'react-native-linear-gradient';
@@ -17,8 +16,6 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 export default function Setting({ navigation }) {
-
-  const [bannerError, setBannerError] = useState(false);
   const [isPurchased, setPurchased] = useState(false);
   const [isShowLoading, setShowLoading] = useState(false);
   const insets = useSafeAreaInsets();
@@ -158,23 +155,6 @@ export default function Setting({ navigation }) {
             </View>
             <Ionicons name="chevron-forward-outline" color='#000000' size={20} />
           </TouchableOpacity>
-
-          {bannerError || isPurchased ?
-            null :
-            <View style={{ width: '100%', alignItems: 'center', marginBottom: 8 }}>
-              <BannerAd
-                size={BannerAdSize.MEDIUM_RECTANGLE}
-                unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                  ios: 'ca-app-pub-1354543839348242/9312658828',
-                  android: 'ca-app-pub-9597010572153445/4900058528',
-                })}
-                onAdFailedToLoad={(error) => {
-                  console.log(error);
-                  setBannerError(true);
-                }}
-              />
-            </View>
-          }
 
           <View style={{ alignSelf: 'center', width: '90%', height: 1, backgroundColor: '#CFD8DC' }} />
 

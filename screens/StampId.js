@@ -1,13 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Alert, Dimensions, Image, ImageBackground, Platform, StyleSheet, Text, View } from 'react-native';
-import { MainNavigator, CameraNavigator, CollectionNavigator, DiscoveryNavigator, SettingNavigator } from '../CustomNavigation';
+import { MainNavigator, CameraNavigator, CollectionNavigator } from '../CustomNavigation';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const width = Dimensions.get('window').width;
 
 const Tab = createBottomTabNavigator();
-
-const MAX_SCAN_PER_DAY = 3;
 
 export default function StampId() {
 
@@ -21,12 +19,11 @@ export default function StampId() {
                 tabBarShowLabel: false,
                 tabBarStyle: {
                     backgroundColor: '#FFFFFF',
-                    borderRadius: 16,
-                    height: 60,
+                    height: 60 + insets.bottom,
                     position: 'absolute',
-                    width: width - 16,
-                    bottom: insets.bottom + 16,
-                    marginLeft: 8,
+                    width: width,
+                    bottom: 0,
+                    paddingBottom: insets.bottom,
                     alignSelf: 'center',
                     borderWidth: 1,
                     borderColor: '#CCCCCC'
@@ -40,22 +37,8 @@ export default function StampId() {
                     headerShown: false,
                     tabBarIcon: ({ size, focused, color }) => {
                         return (
-                            <View style={{ width: width / 4 - 32, marginLeft: 8, height: 60, marginTop: Platform.isPad ? 0 : 20, alignItems: 'center', justifyContent: 'center' }}>
+                            <View style={{ marginLeft: 30, width: width / 2 - 30, height: 60, marginTop: Platform.isPad ? 0 : 20, alignItems: 'center', justifyContent: 'center' }}>
                                 <ImageBackground style={{ width: 20, height: 20 }} source={focused ? require('../assets/tabbar/home.png') : require('../assets/tabbar/home_0.png')} />
-                            </View>
-                        );
-                    }
-                }}
-            />
-
-            <Tab.Screen
-                name="CollectionTab" component={CollectionNavigator}
-                options={{
-                    headerShown: false,
-                    tabBarIcon: ({ size, focused, color }) => {
-                        return (
-                            <View style={{ width: width / 4 - 32, marginLeft: 8, height: 60, marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
-                                <ImageBackground style={{ width: 20, height: 20 }} source={focused ? require('../assets/tabbar/collection.png') : require('../assets/tabbar/collection_0.png')} />
                             </View>
                         );
                     }
@@ -85,32 +68,20 @@ export default function StampId() {
             />
 
             <Tab.Screen
-                name="DiscoveryTab" component={DiscoveryNavigator}
+                name="CollectionTab" component={CollectionNavigator}
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ size, focused, color }) => {
                         return (
-                            <View style={{ width: width / 4 - 32, marginRight: 8, height: 60, marginTop: Platform.isPad ? 0 : 20, alignItems: 'center', justifyContent: 'center' }}>
-                                <ImageBackground style={{ width: 20, height: 20 }} source={focused ? require('../assets/tabbar/discovery.png') : require('../assets/tabbar/discovery_0.png')} />
+                            <View style={{marginRight: 30, width: width / 2 - 30, height: 60, marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
+                                <ImageBackground style={{ width: 20, height: 20 }} source={focused ? require('../assets/tabbar/collection.png') : require('../assets/tabbar/collection_0.png')} />
                             </View>
                         );
                     }
                 }}
             />
 
-            <Tab.Screen
-                name="SettingTab" component={SettingNavigator}
-                options={{
-                    headerShown: false,
-                    tabBarIcon: ({ size, focused, color }) => {
-                        return (
-                            <View style={{ width: width / 4 - 32, marginRight: 8, height: 60, marginTop: Platform.isPad ? 0 : 20, alignItems: 'center', justifyContent: 'center' }}>
-                                <ImageBackground style={{ width: 20, height: 20 }} source={focused ? require('../assets/tabbar/setting.png') : require('../assets/tabbar/setting_0.png')} />
-                            </View>
-                        );
-                    }
-                }}
-            />
+
         </Tab.Navigator>
 
     );

@@ -328,23 +328,6 @@ export default function Result({ route }) {
           </View>
         </TouchableOpacity>
 
-        {bannerError || isPurchased ?
-          null :
-          <View style={{ width: '100%', alignItems: 'center', marginTop: 16, marginBottom: 16 }}>
-            <BannerAd
-              size={BannerAdSize.MEDIUM_RECTANGLE}
-              unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                ios: 'ca-app-pub-1354543839348242/8298975964',
-                android: 'ca-app-pub-9597010572153445/6050398794',
-              })}
-              onAdFailedToLoad={(error) => {
-                console.log(error);
-                setBannerError(true);
-              }}
-            />
-          </View>
-        }
-
         {stamps.slice(1).map(stamp => (
           <TouchableOpacity
             key={stamp._id}
@@ -401,50 +384,6 @@ export default function Result({ route }) {
         ))}
         <View style={{ height: 200 }} />
       </ScrollView>}
-
-      {!identifying && stamps.length > 0 && <TouchableOpacity
-        style={{
-          width: width - 32,
-          position: 'absolute',
-          bottom: insets.bottom + 16, left: 16,
-          padding: 16,
-          borderRadius: 16,
-          backgroundColor: '#455A64',
-          shadowOffset: {
-            width: 1,
-            height: 1,
-          },
-          shadowOpacity: 0.5,
-          shadowRadius: 5,
-          elevation: 2,
-          borderWidth: 1,
-          borderColor: '#37474F'
-        }}
-        onPress={async () => {
-          try {
-            if (!isPurchased) {
-              setShowLoading(true);
-              console.log("start loading...")
-              await sleep(2000)
-              setShowLoading(false);
-              try {
-                interstitial.show();
-                setLoaded(false);
-                interstitial.load();
-              } catch {
-                interstitial.load();
-              }
-            }
-          } catch (err) {
-            interstitial.load();
-          }
-          navigation.navigate('StampExpert');
-        }}
-      >
-        <LottieView source={require('../assets/expert.json')} autoPlay loop style={{ width: '100%', height: 100, marginTop: -40 }} />
-        <Text style={{ color: '#FFF', fontSize: 12, fontWeight: 'bold', textAlign: 'center', alignSelf: 'center' }}>Check out our expert review of this stamp</Text>
-        <Text style={{ color: '#FFF', fontSize: 10, marginTop: 8, textAlign: 'center', alignSelf: 'center', fontStyle: 'italic' }}>If you want to know more about the stamp's information, rarity, and market value in a professional way, try asking our stamp expert!</Text>
-      </TouchableOpacity>}
 
       {!identifying && <TouchableOpacity style={{ position: 'absolute', top: insets.top + 32, left: 16 }} onPress={() => {
         navigation.reset({

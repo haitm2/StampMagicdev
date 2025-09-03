@@ -10,7 +10,6 @@ import Article from './screens/Article';
 import Walkthrough from './screens/Walkthrough';
 import Camera from './screens/Camera';
 import CollectionDetail from './screens/CollectionDetail';
-import StampExpert from './screens/StampExpert';
 import Notification from './screens/Notification';
 import Setting from './screens/Setting';
 import Result from './screens/Result';
@@ -107,15 +106,10 @@ export default function App() {
             component={Camera}
             options={{ headerShown: false }}
           />
-          {/* <Stack.Screen
+          <Stack.Screen
             name="Setting"
             component={Setting}
             options={{ headerShown: true }}
-          /> */}
-          <Stack.Screen
-            name="StampExpert"
-            component={StampExpert}
-            options={{ headerShown: false }}
           />
         </Stack.Group>
         <Stack.Group

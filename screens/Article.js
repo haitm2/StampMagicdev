@@ -8,8 +8,6 @@ import { useFocusEffect } from '@react-navigation/native';
 const width = Dimensions.get('window').width;
 
 export default function Article({ navigation, route }) {
-
-  const [bannerError, setBannerError] = useState(false);
   const [isPurchased, setPurchased] = useState(false);
 
   useFocusEffect(
@@ -64,21 +62,20 @@ export default function Article({ navigation, route }) {
             </View>
           ))}
 
-          {bannerError || isPurchased ?
-            null :
-            <View style={{ width: '100%', alignItems: 'center', marginTop: 16, marginBottom: 16 }}>
-              <BannerAd
-                size={BannerAdSize.MEDIUM_RECTANGLE}
-                unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                  ios: 'ca-app-pub-1354543839348242/5564985503',
-                  android: 'ca-app-pub-9597010572153445/9083756240',
-                })}
-                onAdFailedToLoad={(error) => {
-                  console.log(error);
-                  setBannerError(true);
-                }}
-              />
-            </View>
+          {
+            !isPurchased && <TouchableOpacity
+              style={{ margin: 16, width: width - 32, borderRadius: 16, backgroundColor: '#000' }}
+              onPress={async () => {
+                var lastType = "ARTICLE IAP BANNER";
+                navigation.navigate('Premium', { type: lastType });
+              }}
+            >
+              <ImageBackground source={require('../assets/premium_stamp.png')} style={{ position: 'absolute', bottom: 0, right: 0, width: width - 32, height: Math.round((width - 32) * 510 / 2048) }} imageStyle={{ resizeMode: 'contain' }} />
+              <View style={{ width: width - 150, margin: 16 }}>
+                <Text style={{ fontWeight: 'bold', color: '#FFF' }}>Upgrade to Premium</Text>
+                <Text style={{ fontSize: 10, color: '#FFF' }}>Use the app without limits — no ads, no scan restrictions.</Text>
+              </View>
+            </TouchableOpacity>
           }
 
           {route.params.contents.slice(5).map(content => (
@@ -99,45 +96,12 @@ export default function Article({ navigation, route }) {
           ))}
         </View>
 
-        {bannerError || isPurchased ?
-          null :
-          <View style={{ width: '100%', alignItems: 'center', marginTop: 16, marginBottom: 16 }}>
-            <BannerAd
-              size={BannerAdSize.MEDIUM_RECTANGLE}
-              unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                ios: 'ca-app-pub-1354543839348242/5564985503',
-                android: 'ca-app-pub-9597010572153445/9083756240',
-              })}
-              onAdFailedToLoad={(error) => {
-                console.log(error);
-                setBannerError(true);
-              }}
-            />
-          </View>
-        }
-
         <View style={{ height: 200 }} />
       </ScrollView>
 
       <TouchableOpacity style={{ position: 'absolute', top: 50, left: 16 }} onPress={() => navigation.goBack()}>
         <ImageBackground source={require('../assets/back_detail_button.png')} style={{ width: 40, height: 40 }} />
       </TouchableOpacity>
-
-      {
-        !isPurchased && <TouchableOpacity
-          style={{ position: 'absolute', left: 16, bottom: 16, width: width - 32, borderRadius: 16, backgroundColor: '#000' }}
-          onPress={async () => {
-            var lastType = "ARTICLE IAP BANNER";
-            navigation.navigate('Premium', { type: lastType });
-          }}
-        >
-          <ImageBackground source={require('../assets/premium_stamp.png')} style={{ position: 'absolute', bottom: 0, right: 0, width: width - 32, height: Math.round((width - 32) * 510 / 2048) }} imageStyle={{ resizeMode: 'contain' }} />
-          <View style={{ width: width - 150, margin: 16 }}>
-            <Text style={{ fontWeight: 'bold', color: '#FFF' }}>Upgrade to Premium</Text>
-            <Text style={{ fontSize: 10, color: '#FFF' }}>Use the app without limits — no ads, no scan restrictions.</Text>
-          </View>
-        </TouchableOpacity>
-      }
     </View>
   );
 }

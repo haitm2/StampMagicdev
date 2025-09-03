@@ -368,25 +368,6 @@ export default function Collection() {
         ))}
         <View style={{ height: 300 }} />
       </ScrollView>}
-      <TouchableOpacity
-        style={{ position: 'absolute', bottom: insets.bottom + 90, right: 20, flexDirection: 'row' }}
-        onPress={async () => {
-          try {
-            if (!isPurchased) {
-              setShowLoading(true);
-              console.log("start loading...")
-              await sleep(1000)
-              setShowLoading(false);
-            }
-          } catch (err) { }
-          navigation.navigate('StampExpert');
-        }}
-      >
-        <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#37D9BE', '#097754']} style={styles.chatbox}>
-          <TypewriterText text={'Stamp Expert'} loop={true} speed={200} style={{ fontWeight: 'bold', color: '#FFF', marginLeft: 16, marginRight: 16 }} />
-        </LinearGradient>
-        <ImageBackground source={require('../assets/chatbot.png')} style={{ width: 80, height: 80 }} />
-      </TouchableOpacity>
       {!isPurchased && isShowLoading && <View style={{ width: width, height: height, position: 'absolute', top: 0, right: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
         <View style={{ width: 50, height: 50, backgroundColor: '#FFF', borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
           <LottieView source={require('../assets/loadding.json')} autoPlay loop style={{ width: '200%', height: '200%' }} />

@@ -7,20 +7,19 @@ import { ArticleGetter, IAP } from '../utils';
 import TypewriterText from '../components/TypeWriterText';
 import InAppReview from 'react-native-in-app-review';
 import { AdEventType, BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import LottieView from 'lottie-react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const MAX_SCAN_PER_DAY = 3;
-
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
+const articles = ArticleGetter.getArticles();
+
 export default function Main({ navigation, route }) {
   const [isPurchased, setPurchased] = useState(false);
-  const [bannerError, setBannerError] = useState(false);
   const [isShowLoading, setShowLoading] = useState(false);
-  const [isSmallAds, setSmallAds] = useState(false);
 
   const insets = useSafeAreaInsets();
 
@@ -61,7 +60,6 @@ export default function Main({ navigation, route }) {
     navigation.setOptions({
       headerTitle: () => (
         <View>
-          <Text style={{ color: '#FFF', alignSelf: 'center', fontSize: 20, fontWeight: 'bold' }}>STAMP IDENTIFIER</Text>
         </View>
       )
     });
@@ -93,13 +91,13 @@ export default function Main({ navigation, route }) {
   );
 
   useEffect(() => {
-    // IAP.isPurchased().then(async (result) => {
-    //   if (result == false) {
-    //     await sleep(1000);
-    //     var lastType = "HOME IAP POPUP";
-    //     navigation.navigate('Premium', { type: lastType });
-    //   }
-    // });
+    IAP.isPurchased().then(async (result) => {
+      if (result == false) {
+        await sleep(1000);
+        var lastType = "HOME IAP POPUP";
+        navigation.navigate('Premium', { type: lastType });
+      }
+    });
     // AsyncStorage.clear();
   }, []);
 
@@ -112,53 +110,23 @@ export default function Main({ navigation, route }) {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackground source={require('../assets/stampwpp.jpg')} style={styles.topView} imageStyle={{ borderBottomLeftRadius: 16, borderBottomRightRadius: 16 }}>
-          <View style={{ marginTop: insets.top + 60 }}>
-            {bannerError || isPurchased || Platform.OS == 'ios' ?
-              <View style={{ marginBottom: 8, alignItems: 'center' }}>
-                <ImageBackground source={require('../assets/img_flag.webp')} style={{ width: 150, height: 150 }} imageStyle={{ resizeMode: 'contain' }} />
-                <View style={{ width: width - 32, alignItems: 'center', justifyContent: 'center' }}>
-                  <Text style={{ textAlign: 'center', color: '#FFF', fontWeight: 'bold', fontSize: 20, margin: 4, marginTop: 16 }}>Know what's in your pocket</Text>
-                  <Text style={{ textAlign: 'center', fontSize: 14, color: '#FFF' }}>Tap here to recorgize stamps</Text>
-                </View>
-              </View> :
-              <View style={{ alignSelf: 'center', alignItems: 'center', marginBottom: 16 }}>
-                <BannerAd
-                  size={isSmallAds ? BannerAdSize.ANCHORED_ADAPTIVE_BANNER : BannerAdSize.MEDIUM_RECTANGLE}
-                  unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                    ios: 'ca-app-pub-1354543839348242/7313197350',
-                    android: 'ca-app-pub-9597010572153445/9250595016',
-                  })}
-                  style={{ alignSelf: 'center' }}
-                  onAdFailedToLoad={(error) => {
-                    console.log(error);
-                    setBannerError(true);
-                  }} />
-                {!isSmallAds && <TouchableOpacity
-                  style={{ backgroundColor: 'rgba(0,0,0,0.1)', padding: 4, marginTop: -32, borderRadius: 4 }}
-                  onPress={() => setSmallAds(true)}
-                >
-                  <Text style={{ color: '#FFF', fontSize: 10 }}>  minimize ads ✖  </Text>
-                </TouchableOpacity>}
-                {isSmallAds && <View style={{ flexDirection: 'row', marginTop: 8 }}>
-                  <ImageBackground source={require('../assets/img_flag.webp')} style={{ width: 100, height: 100 }} imageStyle={{ resizeMode: 'contain' }} />
-                  <View style={{ width: width - 164, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={{ textAlign: 'center', color: '#FFF', fontWeight: 'bold', fontSize: 16, margin: 4 }}>Know what's in your pocket</Text>
-                    <Text style={{ textAlign: 'center', fontSize: 12, color: '#FFF' }}>Tap here to recorgize stamps</Text>
-                  </View>
-                </View>}
+          <View style={{ marginTop: insets.top + 16 }}>
+            <View style={{ marginBottom: 8, alignItems: 'center' }}>
+              <ImageBackground source={require('../assets/img_flag.webp')} style={{ width: 100, height: 100 }} imageStyle={{ resizeMode: 'contain' }} />
+              <View style={{ width: width - 32, alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ textAlign: 'center', color: '#FFF', fontWeight: 'bold', fontSize: 20, margin: 4, marginTop: 16 }}>Know what's in your pocket</Text>
+                <Text style={{ textAlign: 'center', fontSize: 14, color: '#FFF' }}>Tap here to recorgize stamps</Text>
               </View>
-            }
+            </View>
             <View style={{ alignSelf: 'center', flexDirection: 'row', marginTop: 8, marginBottom: 16 }}>
               <TouchableOpacity
                 style={{ width: width / 2 - 24, backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8, flexDirection: 'row', alignItems: 'center' }}
                 onPress={async () => {
                   if (!isPurchased) {
-                    setShowLoading(true);
-                    console.log("start loading...")
-                    await sleep(1000)
-                    setShowLoading(false);
+                    navigation.navigate('Offer', { type: 'UNLOCK_SEARCH' });
+                  } else {
+                    navigation.navigate('Search');
                   }
-                  navigation.navigate('Search');
                 }}
               >
                 <ImageBackground style={{ width: 32, height: 32, margin: 8 }} source={require('../assets/ic_search_edt.png')} />
@@ -179,94 +147,60 @@ export default function Main({ navigation, route }) {
         </ImageBackground >
         {
           !isPurchased && <TouchableOpacity
-            style={{ marginLeft: 16, marginTop: 16, width: width - 32, borderRadius: 16, backgroundColor: '#000' }}
+            style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 16, marginTop: 16, width: width - 32, borderRadius: 16, backgroundColor: '#6D4C41' }}
             onPress={() => {
-              navigation.navigate('Premium', { type: 'HOME IAP BANNER' });
+              navigation.navigate('Offer', { type: 'HOME IAP BANNER' });
             }}
           >
-            <ImageBackground source={require('../assets/premium_stamp.png')} style={{ position: 'absolute', bottom: 0, right: 0, width: width - 32, height: Math.round((width - 32) * 510 / 2048) }} imageStyle={{ resizeMode: 'contain' }} />
             <View style={{ width: width - 150, margin: 16 }}>
-              <Text style={{ fontWeight: 'bold', color: '#FFF' }}>Upgrade to Premium</Text>
-              <Text style={{ fontSize: 10, color: '#FFF' }}>Use the app without limits — no ads, no scan restrictions.</Text>
+              <Text style={{ fontWeight: 'bold', color: '#FFF' }}>Free Premium Available</Text>
+              <Text style={{ fontSize: 10, color: '#FFF' }}>Tap to claim.</Text>
+            </View>
+            <View style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF', borderRadius: 8, margin: 16 }}>
+              <Ionicons
+                name='mail-unread' size={28}
+                color='#E64A19'
+              />
             </View>
           </TouchableOpacity>
         }
 
-        <View style={{ flexDirection: 'row' }}>
+        {articles.map(item => (
           <TouchableOpacity
-            style={{ marginLeft: 16, marginTop: 16, width: width / 2 - 24, borderRadius: 16, backgroundColor: '#3E2723', alignItems: 'center' }}
+            style={styles.tipItem} key={item.title}
             onPress={async () => {
-              if (!isPurchased) {
-                var scannedAppraiser = await AsyncStorage.getItem("scannedAppraiser");
-                if (!scannedAppraiser) {
+              try {
+                if (!isPurchased) {
                   setShowLoading(true);
                   console.log("start loading...")
                   await sleep(1000)
                   setShowLoading(false);
-                  navigation.navigate('Appraiser');
-                } else {
-                  navigation.navigate('Premium', { type: 'Unlock Appraiser' });
                 }
-              } else {
-                navigation.navigate('Appraiser');
-              }
+              } catch (err) { }
+              navigation.navigate('Article', { title: item.title.split('\n')[0], image: item.image, contents: item.contents })
             }}
           >
-            <ImageBackground source={require('../assets/appraiser.png')} style={{ width: 100, height: 100 }} imageStyle={{ resizeMode: 'contain' }} />
-            <View style={{ margin: 16 }}>
-              <Text style={{ alignSelf: 'center', fontWeight: 'bold', color: '#FFF', marginBottom: 8 }}>{"Stamp Appraiser"}</Text>
-              <Text style={{ fontSize: 10, color: '#FFF', textAlign: 'justify' }}>{"Determine the value of your stamps with our stamp experts, based on their condition and rarity."}</Text>
+            <ImageBackground source={item.image} style={{ width: 100, height: 100 }} imageStyle={{ borderRadius: 8 }} />
+            <View style={{ marginLeft: 8, width: Platform.isPad ? width - 220 : width - 152 }}>
+              <Text style={{ fontWeight: 'bold', lineHeight: 20 }}>{item.title}</Text>
+              <Text style={{ fontSize: 12, color: '#949494' }}>{item.contents[1].text.substring(0, 100) + '...'}</Text>
             </View>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{ marginLeft: 16, marginTop: 16, width: width / 2 - 24, borderRadius: 16, backgroundColor: '#004D40', alignItems: 'center' }}
-            onPress={async () => {
-              if (!isPurchased) {
-                var scannedMulti = await AsyncStorage.getItem("scannedMulti");
-                if (!scannedMulti) {
-                  setShowLoading(true);
-                  console.log("start loading...")
-                  await sleep(1000)
-                  setShowLoading(false);
-                  navigation.navigate('ResultMultiple');
-                } else {
-                  navigation.navigate('Premium', { type: 'IDENTIFY MULTIPLE STAMP' });
-                }
-              } else {
-                navigation.navigate('ResultMultiple');
-              }
-            }}
-          >
-            <ImageBackground source={require('../assets/multiple_stamps.png')} style={{ width: 100, height: 100 }} imageStyle={{ resizeMode: 'contain' }} />
-            <View style={{ margin: 16 }}>
-              <Text style={{ alignSelf: 'center', fontWeight: 'bold', color: '#FFF', marginBottom: 8 }}>{"Identify multiple\nstamps at once"}</Text>
-              <Text style={{ fontSize: 10, color: '#FFF', textAlign: 'justify' }}>{"Save time if your collection is large."}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        ))}
 
         <View style={{ height: 200 }} />
       </ScrollView >
+
       <TouchableOpacity
-        style={{ position: 'absolute', bottom: insets.bottom + 90, right: 20, flexDirection: 'row' }}
-        onPress={async () => {
-          try {
-            if (!isPurchased) {
-              setShowLoading(true);
-              console.log("start loading...")
-              await sleep(1000)
-              setShowLoading(false);
-            }
-          } catch (err) { }
-          navigation.navigate('StampExpert');
-        }}
+        style={{ position: 'absolute', top: insets.top + 16, right: 16, width: 36, height: 36, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8 }}
+        onPress={() => navigation.navigate('Setting')}
       >
-        <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#37D9BE', '#097754']} style={styles.chatbox}>
-          <TypewriterText text={'Stamp Expert'} loop={true} speed={200} style={{ fontWeight: 'bold', color: '#FFF', marginLeft: 16, marginRight: 16 }} />
-        </LinearGradient>
-        <ImageBackground source={require('../assets/chatbot.png')} style={{ width: 80, height: 80 }} />
+        <Ionicons
+          name='settings' size={20}
+          color='#000'
+        />
       </TouchableOpacity>
+
       {
         !isPurchased && isShowLoading && <View style={{ width: width, height: height, position: 'absolute', top: 0, right: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
           <View style={{ width: 50, height: 50, backgroundColor: '#FFF', borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
@@ -321,5 +255,8 @@ const styles = StyleSheet.create({
     // paddingRight: 16,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  tipItem: {
+    padding: 8, marginTop: 8, marginLeft: 16, marginRight: 16, flexDirection: 'row', justifyContent: 'space-between',
   },
 });

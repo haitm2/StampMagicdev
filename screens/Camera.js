@@ -203,22 +203,23 @@ export default function Camera() {
         backgroundColor="#000"
         barStyle="light-content"
       />
-      {bannerError || isPurchased ?
-        null :
-        <View style={{ width: '100%', alignItems: 'center', marginTop: 8 + insets.top }}>
-          <BannerAd
-            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-            unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-              ios: 'ca-app-pub-1354543839348242/2252442369',
-              android: 'ca-app-pub-9597010572153445/7526221862'
-            })}
-            onAdFailedToLoad={(error) => {
-              console.log(error);
-              setBannerError(true);
-            }}
+      {!isPurchased && <TouchableOpacity
+        style={{ flexDirection: 'row', justifyContent: 'space-between', position: 'absolute', left: 16, top: insets.top + 16, width: width - 32, borderRadius: 16, backgroundColor: '#6D4C41' }}
+        onPress={() => {
+          navigation.navigate('Offer', { type: 'HOME IAP BANNER' });
+        }}
+      >
+        <View style={{ width: width - 150, margin: 16 }}>
+          <Text style={{ fontWeight: 'bold', color: '#FFF' }}>Free Premium Available</Text>
+          <Text style={{ fontSize: 10, color: '#FFF' }}>Tap to claim.</Text>
+        </View>
+        <View style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF', borderRadius: 8, margin: 16 }}>
+          <Ionicons
+            name='mail-unread' size={28}
+            color='#E64A19'
           />
         </View>
-      }
+      </TouchableOpacity>}
       <CameraView autofocus={true} ref={(ref) => setCamera(ref)} style={[styles.camera, { position: 'absolute', bottom: 166 + insets.bottom, width: width * 0.9, height: width * 4 / 3 * 0.9 }]} facing={'back'} mute={true} mode='picture'>
         <ImageBackground source={require('../assets/camera_frame_2.png')} style={{ width: '100%', height: '100%' }} imageStyle={{ resizeMode: 'contain' }}>
           <View style={{ position: 'absolute', bottom: 20, width: 300, borderRadius: 8, padding: 4, alignSelf: 'center', backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
