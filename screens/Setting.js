@@ -27,7 +27,7 @@ export default function Setting({ navigation }) {
   useEffect(() => {
     setShowLoading(true);
     console.log("start loading...")
-    sleep(2000).then(async () => {
+    sleep(500).then(async () => {
       setShowLoading(false);
       showRateDialog();
     })
@@ -84,22 +84,6 @@ export default function Setting({ navigation }) {
         imageStyle={{ borderBottomLeftRadius: 32, borderBottomRightRadius: 32 }}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
-        {
-          !isPurchased && <TouchableOpacity
-            style={{ marginLeft: 16, marginTop: 16, width: width - 32, borderRadius: 16, backgroundColor: '#000' }}
-            onPress={async () => {
-              var lastType = "SETTING IAP BANNER";
-              navigation.navigate('Premium', { type: lastType });
-            }}
-          >
-            <ImageBackground source={require('../assets/premium_stamp.png')} style={{ position: 'absolute', bottom: 0, right: 0, width: width - 32, height: Math.round((width - 32) * 510 / 2048) }} imageStyle={{ resizeMode: 'contain' }} />
-            <View style={{ width: width - 150, margin: 16 }}>
-              <Text style={{ fontWeight: 'bold', color: '#FFF' }}>Upgrade to Premium</Text>
-              <Text style={{ fontSize: 10, color: '#FFF' }}>Use the app without limits — no ads, no scan restrictions.</Text>
-            </View>
-          </TouchableOpacity>
-        }
-
         <View style={styles.settingSubView}>
           <View style={{ padding: 16 }}>
             <Text style={{ fontWeight: 'bold', color: '#00796B' }}>Manage membership</Text>
@@ -158,57 +142,7 @@ export default function Setting({ navigation }) {
 
           <View style={{ alignSelf: 'center', width: '90%', height: 1, backgroundColor: '#CFD8DC' }} />
 
-          <Text style={{ fontWeight: 'bold', color: '#00796B', marginLeft: 16, marginTop: 16 }}>More apps</Text>
-          {Platform.OS == 'android' && <TouchableOpacity
-            style={styles.moreItem}
-            onPress={() => Linking.openURL('https://play.google.com/store/apps/details?id=com.magicdev.coinid&referrer=utm_source%3Dstamp_magicdev_app')}
-          >
-            <View style={{ flexDirection: 'row' }}>
-              <Ionicons name="radio-button-off-outline" color='#000000' size={20} />
-              <Text style={{ marginLeft: 20 }}>For coin collectors</Text>
-            </View>
-            <Ionicons name="chevron-forward-outline" color='#000000' size={20} />
-          </TouchableOpacity>}
-          {Platform.OS == 'android' && <TouchableOpacity
-            style={styles.moreItem}
-            onPress={() => {
-              Linking.openURL('https://play.google.com/store/apps/details?id=com.magicdev.identifier&referrer=utm_source%3Dstamp_magicdev_app');
-            }}
-          >
-            <View style={{ flexDirection: 'row' }}>
-              <Ionicons name="leaf-outline" color='#000000' size={20} />
-              <Text style={{ marginLeft: 20 }}>For nature explorers</Text>
-            </View>
-            <Ionicons name="chevron-forward-outline" color='#000000' size={20} />
-          </TouchableOpacity>}
-
-          {Platform.OS == 'ios' && <TouchableOpacity
-            style={styles.moreItem}
-            onPress={() => {
-              Linking.openURL('https://apps.apple.com/app/id6738723607');
-            }}
-          >
-            <View style={{ flexDirection: 'row' }}>
-              <Ionicons name="cube-outline" color='#000000' size={20} />
-              <Text style={{ marginLeft: 20 }}>For TCG collectors</Text>
-            </View>
-            <Ionicons name="chevron-forward-outline" color='#000000' size={20} />
-          </TouchableOpacity>}
-
-          {Platform.OS == 'ios' && <TouchableOpacity
-            style={styles.moreItem}
-            onPress={() => {
-              Linking.openURL('https://apps.apple.com/app/id6723888886');
-            }}
-          >
-            <View style={{ flexDirection: 'row' }}>
-              <Ionicons name="game-controller-outline" color='#000000' size={20} />
-              <Text style={{ marginLeft: 20 }}>For sandbox player</Text>
-            </View>
-            <Ionicons name="chevron-forward-outline" color='#000000' size={20} />
-          </TouchableOpacity>}
-
-          <View style={{ alignSelf: 'center', width: '90%', height: 1, backgroundColor: '#CFD8DC' }} />
+          
 
           <Text style={{ fontWeight: 'bold', color: '#00796B', marginLeft: 16, marginTop: 16 }}>Legal</Text>
           <TouchableOpacity
@@ -254,6 +188,36 @@ export default function Setting({ navigation }) {
           <LottieView source={require('../assets/loadding.json')} autoPlay loop style={{ width: '200%', height: '200%' }} />
         </View>
       </View>}
+
+      {
+        !isPurchased && <TouchableOpacity
+          style={{ flexDirection: 'row', justifyContent: 'space-between', position: 'absolute', left: 16, bottom: insets.bottom + 16, width: width - 32, borderRadius: 16, backgroundColor: '#000' }}
+          onPress={() => {
+            navigation.navigate('Premium', { type: 'SETTING IAP BANNER' });
+          }}
+        >
+          <View style={{ width: width - 150, margin: 16 }}>
+            <Text style={{ fontWeight: 'bold', color: '#FFF' }}>Upgrate to Premium</Text>
+            <Text style={{ fontSize: 10, color: '#FFF' }}>Use the app without limits</Text>
+          </View>
+          <View style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF', borderRadius: 8, margin: 16 }}>
+            <Ionicons
+              name='mail-unread' size={28}
+              color='#E64A19'
+            />
+          </View>
+        </TouchableOpacity>
+      }
+
+      <TouchableOpacity
+        style={{ position: 'absolute', top: insets.top + 16, left: 16, width: 36, height: 36, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8 }}
+        onPress={() => navigation.goBack()}
+      >
+        <Ionicons
+          name='arrow-back' size={20}
+          color='#000'
+        />
+      </TouchableOpacity>
     </View>
   );
 }

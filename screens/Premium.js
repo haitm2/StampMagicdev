@@ -20,12 +20,12 @@ const TERMS_URL = 'https://stampidentifierai.com/terms';
 
 const onetimeIAPPack = Platform.select({
   ios: 'ONETIME v1.0',
-  android: 'ONETIME V1.9',
+  android: 'ONETIME V2.0',
 });
 
 const weeklyIAPPack = Platform.select({
   ios: 'WEEKLY v1.0',
-  android: 'WEEKLY V1.9',
+  android: 'WEEKLY V2.0',
 });
 
 var IAP_URL = 'https://analytics.stampidentifierai.com/logging';

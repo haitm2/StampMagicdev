@@ -29,7 +29,7 @@ const appId = Platform.select({
 
 const weekIAPPack = Platform.select({
   ios: 'WEEKLY TRIAL v1.0',
-  android: 'WEEKLY TRIAL v1.9',
+  android: 'WEEKLY TRIAL v2.0',
 });
 
 const Offer = ({ navigation, route }) => {

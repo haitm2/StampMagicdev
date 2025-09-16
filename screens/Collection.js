@@ -55,7 +55,7 @@ export default function Collection() {
   useEffect(() => {
     setShowLoading(true);
     console.log("start loading...")
-    sleep(2000).then(async () => {
+    sleep(500).then(async () => {
       setShowLoading(false);
       showRateDialog();
     })
@@ -264,22 +264,6 @@ export default function Collection() {
       </View>}
 
       {collections.length > 0 && <ScrollView>
-        {bannerError || isPurchased ?
-          null :
-          <View style={{ width: '100%', alignItems: 'center' }}>
-            <BannerAd
-              size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-              unitId={__DEV__ ? TestIds.BANNER : Platform.select({
-                ios: 'ca-app-pub-1354543839348242/6857901785',
-                android: 'ca-app-pub-9597010572153445/8173707678',
-              })}
-              onAdFailedToLoad={(error) => {
-                console.log(error);
-                setBannerError(true);
-              }}
-            />
-          </View>
-        }
         {collections.map(item => (
           <TouchableOpacity
             key={item.id}
@@ -315,7 +299,11 @@ export default function Collection() {
                     {
                       text: 'Search',
                       onPress: () => {
-                        navigation.navigate('Search');
+                        if (isPurchased) {
+                          navigation.navigate('Search');
+                        } else {
+                          navigation.navigate('Premium', { type: 'UNLOCK_SEARCH' });
+                        }
                       }
                     }
                   ]
@@ -368,6 +356,37 @@ export default function Collection() {
         ))}
         <View style={{ height: 300 }} />
       </ScrollView>}
+
+      {
+        !isPurchased && <TouchableOpacity
+          style={{ flexDirection: 'row', justifyContent: 'space-between', position: 'absolute', left: 16, bottom: insets.bottom + 76, width: width - 32, borderRadius: 16, backgroundColor: '#000' }}
+          onPress={() => {
+            navigation.navigate('Premium', { type: 'COLLECTIONS IAP BANNER' });
+          }}
+        >
+          <View style={{ width: width - 150, margin: 16 }}>
+            <Text style={{ fontWeight: 'bold', color: '#FFF' }}>Upgrate to Premium</Text>
+            <Text style={{ fontSize: 10, color: '#FFF' }}>Use the app without limits</Text>
+          </View>
+          <View style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF', borderRadius: 8, margin: 16 }}>
+            <Ionicons
+              name='mail-unread' size={28}
+              color='#E64A19'
+            />
+          </View>
+        </TouchableOpacity>
+      }
+
+      <TouchableOpacity
+        style={{ position: 'absolute', top: insets.top + 16, right: 16, width: 36, height: 36, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8 }}
+        onPress={() => navigation.navigate('Setting')}
+      >
+        <Ionicons
+          name='settings' size={20}
+          color='#000'
+        />
+      </TouchableOpacity>
+
       {!isPurchased && isShowLoading && <View style={{ width: width, height: height, position: 'absolute', top: 0, right: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
         <View style={{ width: 50, height: 50, backgroundColor: '#FFF', borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
           <LottieView source={require('../assets/loadding.json')} autoPlay loop style={{ width: '200%', height: '200%' }} />

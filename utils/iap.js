@@ -98,10 +98,10 @@ export async function connect() {
 }
 
 export async function isPurchased() {
-    // const value = await AsyncStorage.getItem("purchased");
-    // if (value == 'ok') {
-    //     return true;
-    // }
+    const value = await AsyncStorage.getItem("purchased");
+    if (value == 'ok') {
+        return true;
+    }
     return false;
     // return true;
 }

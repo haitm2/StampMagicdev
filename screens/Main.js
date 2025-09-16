@@ -93,7 +93,7 @@ export default function Main({ navigation, route }) {
   useEffect(() => {
     IAP.isPurchased().then(async (result) => {
       if (result == false) {
-        await sleep(1000);
+        await sleep(500);
         var lastType = "HOME IAP POPUP";
         navigation.navigate('Premium', { type: lastType });
       }
@@ -123,7 +123,7 @@ export default function Main({ navigation, route }) {
                 style={{ width: width / 2 - 24, backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8, flexDirection: 'row', alignItems: 'center' }}
                 onPress={async () => {
                   if (!isPurchased) {
-                    navigation.navigate('Offer', { type: 'UNLOCK_SEARCH' });
+                    navigation.navigate('Premium', { type: 'UNLOCK_SEARCH' });
                   } else {
                     navigation.navigate('Search');
                   }
@@ -145,25 +145,6 @@ export default function Main({ navigation, route }) {
             </View>
           </View>
         </ImageBackground >
-        {
-          !isPurchased && <TouchableOpacity
-            style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 16, marginTop: 16, width: width - 32, borderRadius: 16, backgroundColor: '#6D4C41' }}
-            onPress={() => {
-              navigation.navigate('Offer', { type: 'HOME IAP BANNER' });
-            }}
-          >
-            <View style={{ width: width - 150, margin: 16 }}>
-              <Text style={{ fontWeight: 'bold', color: '#FFF' }}>Free Premium Available</Text>
-              <Text style={{ fontSize: 10, color: '#FFF' }}>Tap to claim.</Text>
-            </View>
-            <View style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF', borderRadius: 8, margin: 16 }}>
-              <Ionicons
-                name='mail-unread' size={28}
-                color='#E64A19'
-              />
-            </View>
-          </TouchableOpacity>
-        }
 
         {articles.map(item => (
           <TouchableOpacity
@@ -173,7 +154,7 @@ export default function Main({ navigation, route }) {
                 if (!isPurchased) {
                   setShowLoading(true);
                   console.log("start loading...")
-                  await sleep(1000)
+                  await sleep(200)
                   setShowLoading(false);
                 }
               } catch (err) { }
@@ -200,6 +181,26 @@ export default function Main({ navigation, route }) {
           color='#000'
         />
       </TouchableOpacity>
+
+      {
+        !isPurchased && <TouchableOpacity
+          style={{ flexDirection: 'row', justifyContent: 'space-between', position: 'absolute', left: 16, bottom: insets.bottom + 76, width: width - 32, borderRadius: 16, backgroundColor: '#000' }}
+          onPress={() => {
+            navigation.navigate('Premium', { type: 'HOME IAP BANNER' });
+          }}
+        >
+          <View style={{ width: width - 150, margin: 16 }}>
+            <Text style={{ fontWeight: 'bold', color: '#FFF' }}>Upgrate to Premium</Text>
+            <Text style={{ fontSize: 10, color: '#FFF' }}>Use the app without limits</Text>
+          </View>
+          <View style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF', borderRadius: 8, margin: 16 }}>
+            <Ionicons
+              name='mail-unread' size={28}
+              color='#E64A19'
+            />
+          </View>
+        </TouchableOpacity>
+      }
 
       {
         !isPurchased && isShowLoading && <View style={{ width: width, height: height, position: 'absolute', top: 0, right: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
@@ -238,14 +239,11 @@ const styles = StyleSheet.create({
   },
   certBtn: {
     position: 'absolute', bottom: 18, left: 16, alignItems: 'center', justifyContent: 'center', width: width / 3, padding: 8, backgroundColor: '#1FA586', borderRadius: 4,
-    shadowOffset: {
-      width: 1,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
     borderWidth: 1,
     borderColor: '#189777',
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
     elevation: 3,
   },
   chatbox: {

@@ -222,13 +222,17 @@ export default function StampExpert({ navigation }) {
         <View style={{ height: 100 }} />
 
       </ScrollView>
-      <TouchableOpacity style={{ position: 'absolute', top: 50, left: 16 }} onPress={() => {
-        navigation.reset({
+      <TouchableOpacity
+        style={{ position: 'absolute', top: insets.top + 16, left: 16, width: 36, height: 36, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8 }}
+        onPress={() => navigation.reset({
           index: 0,
           routes: [{ name: 'StampId' }]
-        });
-      }}>
-        <ImageBackground source={require('../assets/back_detail_button.png')} style={{ width: 40, height: 40 }} />
+        })}
+      >
+        <Ionicons
+          name='arrow-back' size={20}
+          color='#000'
+        />
       </TouchableOpacity>
     </ImageBackground>
   )

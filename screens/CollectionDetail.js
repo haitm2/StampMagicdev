@@ -6,6 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { IAP } from '../utils';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const width = Dimensions.get('window').width;
 
@@ -14,6 +15,7 @@ export default function CollectionDetail({ route }) {
   const [isPurchased, setPurchased] = useState(false);
   const [stamps, setStamps] = useState([]);
   const [selectedStamp, setSelectedStamp] = useState(-100);
+  const insets = useSafeAreaInsets();
 
   function convertToImageUrl(code) {
     console.log("code:", code);
@@ -135,8 +137,35 @@ export default function CollectionDetail({ route }) {
 
         <View style={{ height: 200 }} />
       </ScrollView>
-      <TouchableOpacity style={{ position: 'absolute', top: 50, left: 16 }} onPress={() => navigation.goBack()}>
-        <ImageBackground source={require('../assets/back_detail_button.png')} style={{ width: 40, height: 40 }} />
+
+      {
+        !isPurchased && <TouchableOpacity
+          style={{ flexDirection: 'row', justifyContent: 'space-between', position: 'absolute', left: 16, bottom: insets.bottom + 16, width: width - 32, borderRadius: 16, backgroundColor: '#000' }}
+          onPress={() => {
+            navigation.navigate('Premium', { type: 'HOME IAP BANNER' });
+          }}
+        >
+          <View style={{ width: width - 150, margin: 16 }}>
+            <Text style={{ fontWeight: 'bold', color: '#FFF' }}>Upgrate to Premium</Text>
+            <Text style={{ fontSize: 10, color: '#FFF' }}>Use the app without limits</Text>
+          </View>
+          <View style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF', borderRadius: 8, margin: 16 }}>
+            <Ionicons
+              name='mail-unread' size={28}
+              color='#E64A19'
+            />
+          </View>
+        </TouchableOpacity>
+      }
+
+      <TouchableOpacity
+        style={{ position: 'absolute', top: insets.top + 16, left: 16, width: 36, height: 36, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8 }}
+        onPress={() => navigation.goBack()}
+      >
+        <Ionicons
+          name='arrow-back' size={20}
+          color='#000'
+        />
       </TouchableOpacity>
     </View>
   );

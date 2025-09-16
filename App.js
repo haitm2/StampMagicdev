@@ -16,9 +16,7 @@ import Result from './screens/Result';
 import Detail from './screens/Detail';
 import Search from './screens/Search';
 import PolicyConfirm from './screens/PolicyConfirm';
-import ResultMultiple from './screens/ResultMultiple';
 import Offer from './screens/Offer';
-import Appraiser from './screens/Appraiser';
 
 const Stack = createStackNavigator();
 
@@ -82,16 +80,6 @@ export default function App() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="ResultMultiple"
-            component={ResultMultiple}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Appraiser"
-            component={Appraiser}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
             name="CollectionDetail"
             component={CollectionDetail}
             options={{ headerShown: false }}
@@ -109,7 +97,7 @@ export default function App() {
           <Stack.Screen
             name="Setting"
             component={Setting}
-            options={{ headerShown: true }}
+            options={{ headerShown: false }}
           />
         </Stack.Group>
         <Stack.Group

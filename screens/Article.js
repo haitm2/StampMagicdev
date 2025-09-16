@@ -4,11 +4,14 @@ import { Dimensions, Image, ImageBackground, Linking, Platform, ScrollView, Styl
 import { BannerAd, BannerAdSize, NativeAdEventType, TestIds } from 'react-native-google-mobile-ads';
 import { IAP } from '../utils';
 import { useFocusEffect } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const width = Dimensions.get('window').width;
 
 export default function Article({ navigation, route }) {
   const [isPurchased, setPurchased] = useState(false);
+  const insets = useSafeAreaInsets();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -99,8 +102,14 @@ export default function Article({ navigation, route }) {
         <View style={{ height: 200 }} />
       </ScrollView>
 
-      <TouchableOpacity style={{ position: 'absolute', top: 50, left: 16 }} onPress={() => navigation.goBack()}>
-        <ImageBackground source={require('../assets/back_detail_button.png')} style={{ width: 40, height: 40 }} />
+      <TouchableOpacity
+        style={{ position: 'absolute', top: insets.top + 16, left: 16, width: 36, height: 36, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8 }}
+        onPress={() => navigation.goBack()}
+      >
+        <Ionicons
+          name='arrow-back' size={20}
+          color='#000'
+        />
       </TouchableOpacity>
     </View>
   );

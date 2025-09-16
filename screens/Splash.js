@@ -141,7 +141,7 @@ export default function Splash({ navigation }) {
           null :
           <View style={{ width: '100%', position: 'absolute', top: 80, alignItems: 'center' }}>
             <BannerAd
-              size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+              size={BannerAdSize.LARGE_BANNER}
               unitId={__DEV__ ? TestIds.BANNER : Platform.select({
                 ios: 'ca-app-pub-1354543839348242/6985894294',
                 android: 'ca-app-pub-9597010572153445/9195436884',

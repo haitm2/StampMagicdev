@@ -204,7 +204,7 @@ export default function Camera() {
         barStyle="light-content"
       />
       {!isPurchased && <TouchableOpacity
-        style={{ flexDirection: 'row', justifyContent: 'space-between', position: 'absolute', left: 16, top: insets.top + 16, width: width - 32, borderRadius: 16, backgroundColor: '#6D4C41' }}
+        style={{ flexDirection: 'row', justifyContent: 'space-between', position: 'absolute', left: 16, top: insets.top + 16, width: width - 32, borderRadius: 16, backgroundColor: '#827717' }}
         onPress={() => {
           navigation.navigate('Offer', { type: 'HOME IAP BANNER' });
         }}
@@ -216,7 +216,7 @@ export default function Camera() {
         <View style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF', borderRadius: 8, margin: 16 }}>
           <Ionicons
             name='mail-unread' size={28}
-            color='#E64A19'
+            color='#827717'
           />
         </View>
       </TouchableOpacity>}
@@ -228,10 +228,7 @@ export default function Camera() {
         </ImageBackground>
         {<TouchableOpacity style={{ position: 'absolute', top: 8, right: 8, padding: 8 }}
           onPress={() => {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'StampId' }]
-            });
+            navigation.goBack();
           }}
         >
           <Ionicons
@@ -278,11 +275,11 @@ export default function Camera() {
                   <Text style={{ alignSelf: 'center', textAlign: 'center', fontSize: 10 }}>{"Too dark"}</Text>
                 </View>
                 <View>
-                  <ImageBackground style={{ width: 70, height: 80 }} source={require('../assets/camtips/tip_dark.png')} />
+                  <ImageBackground style={{ width: 70, height: 80 }} source={require('../assets/camtips/tip_blur.png')} />
                   <Text style={{ alignSelf: 'center', textAlign: 'center', fontSize: 10 }}>{"Too blurry"}</Text>
                 </View>
                 <View>
-                  <ImageBackground style={{ width: 70, height: 80 }} source={require('../assets/camtips/tip_dark.png')} />
+                  <ImageBackground style={{ width: 70, height: 80 }} source={require('../assets/camtips/tip_multi.png')} />
                   <Text style={{ alignSelf: 'center', textAlign: 'center', fontSize: 10 }}>{"Multiple\nstamps"}</Text>
                 </View>
               </View>

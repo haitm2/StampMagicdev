@@ -93,8 +93,8 @@ android {
         applicationId 'com.magicdev.stampsnap'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 32
-        versionName "1.9"
+        versionCode 33
+        versionName "2.0"
         missingDimensionStrategy "store", "play"
     }
     signingConfigs {

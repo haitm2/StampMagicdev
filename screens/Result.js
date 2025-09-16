@@ -1,6 +1,6 @@
 import { useCameraPermissions, CameraView } from 'expo-camera';
 import React, { useEffect, useState } from 'react';
-import { BackHandler, Alert, Button, Dimensions, Image, ImageBackground, Linking, PixelRatio, Platform, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { BackHandler, Alert, Button, Dimensions, Image, ImageBackground, Linking, PixelRatio, Platform, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -303,7 +303,10 @@ export default function Result({ route }) {
         >
           <View style={{ flexDirection: 'row' }}>
             <ImageBackground style={{ width: 150, height: 150, margin: 8, alignSelf: 'center', alignItems: 'center', justifyContent: 'center' }} source={require('../assets/laurel.png')} imageStyle={{ resizeMode: 'contain' }}>
-              <ImageBackground style={{ width: 100, height: 100, alignSelf: 'center' }} source={{ uri: convertToImageUrl(stamps[0].images[0]) }} imageStyle={{ resizeMode: 'contain' }} />
+              <View style={{ width: 100, height: 100, alignSelf: 'center' }}>
+                <ActivityIndicator size={'small'} color={'#FFF'} style={{ position: 'absolute', top: 40, left: 40 }} />
+                <ImageBackground style={{ width: 100, height: 100, alignSelf: 'center' }} source={{ uri: convertToImageUrl(stamps[0].images[0]) }} imageStyle={{ resizeMode: 'contain' }} />
+              </View>
             </ImageBackground>
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
               <Text style={{ width: width - 220, marginBottom: 16, color: '#FFF', alignSelf: 'center', textAlign: 'center' }}>{"Best matched: " + Math.round(stamps[0].score * 10000) / 100 + "%"}</Text>
@@ -359,7 +362,10 @@ export default function Result({ route }) {
             }}
           >
             <View style={{ flexDirection: 'row' }}>
-              <ImageBackground style={{ width: 100, height: 100, margin: 16, alignSelf: 'center' }} source={{ uri: convertToImageUrl(stamp.images[0]) }} imageStyle={{ resizeMode: 'contain' }} />
+              <View style={{ width: 100, height: 100, margin: 16, alignSelf: 'center' }}>
+                <ActivityIndicator size={'small'} color={'#26A69A'} style={{ position: 'absolute', top: 40, left: 40 }} />
+                <ImageBackground style={{ width: 100, height: 100, alignSelf: 'center' }} source={{ uri: convertToImageUrl(stamp.images[0]) }} imageStyle={{ resizeMode: 'contain' }} />
+              </View>
               <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ width: width - 200, marginBottom: 16, color: '#26A69A', alignSelf: 'center', textAlign: 'center' }}>{"Accuracy: " + Math.round(stamp.score * 10000) / 100 + "%"}</Text>
                 <Text style={{ width: width - 200, fontWeight: 'bold', color: '#000', textAlign: 'center' }}>{stamp.name}</Text>
@@ -385,14 +391,17 @@ export default function Result({ route }) {
         <View style={{ height: 200 }} />
       </ScrollView>}
 
-      {!identifying && <TouchableOpacity style={{ position: 'absolute', top: insets.top + 32, left: 16 }} onPress={() => {
-        navigation.reset({
+      {!identifying && <TouchableOpacity
+        style={{ position: 'absolute', top: insets.top + 16, left: 16, width: 36, height: 36, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8 }}
+        onPress={() => navigation.reset({
           index: 0,
           routes: [{ name: 'StampId' }]
-        });
-        return true;
-      }}>
-        <ImageBackground source={require('../assets/back_detail_button.png')} style={{ width: 40, height: 40 }} />
+        })}
+      >
+        <Ionicons
+          name='arrow-back' size={20}
+          color='#000'
+        />
       </TouchableOpacity>}
       {!isPurchased && isShowLoading && <View style={{ width: width, height: height + 50, position: 'absolute', top: 0, right: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
         <View style={{ width: 50, height: 50, backgroundColor: '#FFF', borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
